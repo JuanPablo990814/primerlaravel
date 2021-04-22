@@ -15,9 +15,17 @@ class usandoDBController extends Controller
      */
     public function index()
     {
-        // $data['query']=destinos::get();
-        $data['query']=destinos::get();
-        return view("usandodb",$data);
+        try{
+            
+            // $data['query']=destinos::get();
+            $data['query']=destinos::get();
+            return view("usandodb",$data);
+
+        }
+        catch(\Exception $ex){
+            return view("withoutplanes");
+        }
+        
     }
 
     /**

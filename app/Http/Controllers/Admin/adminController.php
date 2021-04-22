@@ -18,14 +18,15 @@ class adminController extends Controller
      */
     public function index()
     {
-        
         $data['query']=destinos::get();
         $data['qRecorrido']=tblRecorridos::get();
         $data['qTours']=tblTours::get();
-
-        return view("admin",$data);
-        //return ($data);
-        
+        try{
+            return view("admin",$data);
+            
+        }catch(\Exception $ex){
+            return view("hola no tengo planes");
+        }
     }
 
     /**

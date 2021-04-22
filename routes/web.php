@@ -65,7 +65,14 @@ Route::get('/usandodb', function () {
 Route::resource('/usandodb', 'App\Http\Controllers\Crud\usandoDBController');
 
 
+//paginas en blanco
+Route::get('/withoutplanes', function () {
+    return view('withoutplanes');
+});
 
+Route::get('/noadReco', function () {
+    return view('noadReco');
+});
 //--------------------------------
 
 //Administrador
@@ -85,13 +92,10 @@ Route::get('/adminTours', function () {
 });
 Route::resource('/adminTours', 'App\Http\Controllers\Admin\adminToursController');
 
-
-
-
-Route::get('/contacto', function () {
-    return view('contacto');
-});
-
+//FILTROS
+Route::get('/filtro', 'App\Http\Controllers\Otros\OtrasFuncionesController@filtrarAlojamientos');
+Route::get('/filtroRe', 'App\Http\Controllers\Otros\OtrasFuncionesController@filtrarRecorridos');
+Route::get('/filtroTo', 'App\Http\Controllers\Otros\OtrasFuncionesController@filtrarTours');
 
 //ejemplo de conectar vista con controlador 
 Route::resource('/crud', 'App\Http\Controllers\Crud\CrudController');

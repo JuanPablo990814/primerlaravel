@@ -1,9 +1,44 @@
 @extends('plantilla')
 
 @section('content')
+<!-- filtros -->
+<div class="row ">
+  <div class="col-4 filtrostyle">
+
+    <h5 class="titulo-texto">Filtros</h5>
+    <div class="dropdown">
+          <a class="btn btn-dark dropdown-toggle botonancho" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Tipo de plan
+          </a>
+
+          <ul class="dropdown-menu botonancho" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" href="{{ url('/') }}">Alojamiento</a></li>
+            <li><a class="dropdown-item" href="{{ url('/recorridos') }}">Recorridos</a></li>
+            <li><a class="dropdown-item" href="{{ url('/tours') }}">Tours</a></li>
+          </ul>
+    </div>
+    <h5 class="titulo-texto">Presupuesto</h5>
+    <form action="{{ url('/filtroRe') }}">
+    @csrf
+    <div class="input-group mb-3 botonancho">
+      <span class="input-group-text">$</span>
+      <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="filtrodinero" name="filtrodinero" required>
+      <span class="input-group-text">.00</span>
+    </div>
+      <button type="submit" class="btn btn-primary" id="btnfiltrar">Añadir </button>
+      <a type="submit" class="btn btn-primary" id="btnfiltrar" href="{{ url('/recorridos') }}">Quitar Filtros </a> 
+    </form>
+    <br><br>  
+  </div>
+
+  <div class="col-7">
+   
+  </div>
+</div>
+<br>
+<!-- endfiltros -->
 
 <h2 id="txtalojamiento">Recorridos</h2>
-<br>
         <div class="row">
             <div class="col">
                 <ul class="planes">

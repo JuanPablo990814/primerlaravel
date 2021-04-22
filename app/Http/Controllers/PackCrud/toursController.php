@@ -16,8 +16,13 @@ class toursController extends Controller
      */
     public function index()
     {
-        $data['query']=tblTours::get();
-        return view("tours",$data);
+        try{
+            $data['query']=tblTours::get();
+            return view("tours",$data);
+        }
+        catch(\Exception $ex){
+            return view("withoutplanes");
+        }
     }
 
     /**

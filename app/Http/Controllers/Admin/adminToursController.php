@@ -37,7 +37,19 @@ class adminToursController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $query = new tblTours();
+        $query -> ubicacion = $request -> ipUbicacion1;
+        $query -> costo_persona = $request -> ipCosto1;
+        $query -> descripcion = $request -> ttaDescripcion1;
+        $query -> foto = $request -> ipImagen1;
+        date_default_timezone_set("America/Bogota");
+        $time = time();
+        $query -> updated_at = date("d-m-Y H:i:s", $time);
+        
+        // $query -> url = $url;
+        $query -> save();
+
+        return redirect("/adminTours")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
     }
 
     /**
@@ -95,6 +107,7 @@ class adminToursController extends Controller
     public function destroy($id)
     {
         try{
+
             $data=tblTours::find($id);
             $data-> delete();
     
@@ -102,7 +115,9 @@ class adminToursController extends Controller
             $data['query']=tblTours::get();
             //return view("admin",$data)->with(['msg'=>'Registro eliminado correctamente.','class'=>'alert-success']);
             return redirect('/adminTours')->with(['msg' => 'Registro eliminado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
-            }catch (\Exception $ex){
+        }
+        catch (\Exception $ex){
+
             //return view("admin",$data)->with(['msg'=>'Ha ocurrido un error: '.$ex,'class'=>'alert-success']);
             return redirect('/adminTours')->with(['msg' => 'El Registro no se pudo eliminar', 'class' => 'alert-danger alert-dismissible fade show']);
         }

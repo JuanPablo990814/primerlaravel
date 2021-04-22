@@ -15,6 +15,7 @@
     <link href="{{ asset('css/contacto.css') }}" rel="stylesheet"/>
     <!-- <link href="{{ asset('css/admin.css') }}" rel="stylesheet"/> -->
     <link rel="shortcut icon" href="{{'img/faviconlaravel.png' }}" />
+    <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
   
   </head>
 <body>
@@ -37,9 +38,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/tours') }}">Tours</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('/contacto') }}">Contacto</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,6 +78,8 @@
 <div class="fondomorado">
 <div class="container">
 <br>
+<br>
+
 
 @yield('content')
 

@@ -15,9 +15,14 @@ class alojamientosController extends Controller
      */
     public function index()
     {
-        $data['query']=destinos::get();
-        // var_dump($data);
-        return view("alojamientos",$data);
+        try{
+            $data['query']=destinos::get();
+            // var_dump($data);
+            return view("alojamientos",$data);
+        }
+        catch(\Exception $ex){
+            return view("withoutplanes");
+        }
     }
 
     /**
@@ -85,4 +90,6 @@ class alojamientosController extends Controller
     {
         //
     }
+
+    
 }

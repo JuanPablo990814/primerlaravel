@@ -65,7 +65,7 @@
 </nav>
 
 <div class="row">
-  <div class="col-1">
+  <div class="col-2">
     <div class="herramientas">
     <div class="accordion-item">
     <h2 class="accordion-header" id="headingOne">
@@ -84,7 +84,7 @@
     </div>
 
   </div>
-  <div class="col-11">
+  <div class="col-10">
     @yield('content')
   </div>
 </div>

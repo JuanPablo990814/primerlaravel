@@ -14,6 +14,8 @@ class CrudController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index()
     {
         // //verificacion 1 de datos desde la base de datos

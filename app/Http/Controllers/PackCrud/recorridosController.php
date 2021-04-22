@@ -16,9 +16,14 @@ class recorridosController extends Controller
      */
     public function index()
     {
-        // $data['query']=destinos::get();
+        try{
+            // $data['query']=destinos::get();
         $data['query']=tblRecorridos::get();
         return view("recorridos",$data);
+        }
+        catch(\Exception $ex){
+            return view("withoutplanes");
+        }
     }
 
     /**
