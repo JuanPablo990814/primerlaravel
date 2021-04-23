@@ -73,6 +73,14 @@ Route::get('/withoutplanes', function () {
 Route::get('/noadReco', function () {
     return view('noadReco');
 });
+
+Route::get('/noadAlo', function () {
+    return view('noadAlo');
+});
+
+Route::get('/noadTo', function () {
+    return view('noadTo');
+});
 //--------------------------------
 
 //Administrador

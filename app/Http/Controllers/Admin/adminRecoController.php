@@ -40,19 +40,24 @@ class adminRecoController extends Controller
     public function store(Request $request)
     {
         // $url= $this -> getUrl($request -> txtDestino);
-        $query = new tblRecorridos();
-        $query -> ubicacion = $request -> ipUbicacion1;
-        $query -> costo_persona = $request -> ipCosto1;
-        $query -> descripcion = $request -> ttaDescripcion1;
-        $query -> foto = $request -> ipImagen1;
-        date_default_timezone_set("America/Bogota");
-        $time = time();
-        $query -> updated_at = date("d-m-Y H:i:s", $time);
+        try{
+            $query = new tblRecorridos();
+            $query -> ubicacion = $request -> ipUbicacion1;
+            $query -> costo_persona = $request -> ipCosto1;
+            $query -> descripcion = $request -> ttaDescripcion1;
+            $query -> foto = $request -> ipImagen1;
+            date_default_timezone_set("America/Bogota");
+            $time = time();
+            $query -> updated_at = date("d-m-Y H:i:s", $time);
+            
+            // $query -> url = $url;
+            $query -> save();
+    
+            return redirect("/adminRecorridos")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
+        }catch(\Exception $ex){
+            return redirect("/adminRecorridos")->with(['msg'=>'Error al guardar registro','class'=>'alert-danger']);
+        }
         
-        // $query -> url = $url;
-        $query -> save();
-
-        return redirect("/adminRecorridos")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
     }
 
     /**
@@ -86,19 +91,24 @@ class adminRecoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $qRecorrido=tblRecorridos::find($id);
-        $qRecorrido -> ubicacion = $request -> ipUbicacion;
-        $qRecorrido -> costo_persona = $request -> ipCosto;
-        $qRecorrido -> descripcion = $request -> ttaDescripcion;
-        $qRecorrido -> foto = $request -> ipImagen;
-        date_default_timezone_set("America/Bogota");
-        $time = time();
-        $qRecorrido -> updated_at = date("d-m-Y H:i:s", $time);
+        try{
+            $qRecorrido=tblRecorridos::find($id);
+            $qRecorrido -> ubicacion = $request -> ipUbicacion;
+            $qRecorrido -> costo_persona = $request -> ipCosto;
+            $qRecorrido -> descripcion = $request -> ttaDescripcion;
+            $qRecorrido -> foto = $request -> ipImagen;
+            date_default_timezone_set("America/Bogota");
+            $time = time();
+            $qRecorrido -> updated_at = date("d-m-Y H:i:s", $time);
+            
+            // $query -> url = $url;
+            $qRecorrido -> save();
+            // return "actualiza su registro";
+            return redirect('/adminRecorridos')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
+        }catch(\Exception $ex){
+            return redirect('/adminRecorridos')->with(['msg' => 'Error al modificar el registro', 'class' => 'alert-danger alert-dismissible fade show']);
+        }
         
-        // $query -> url = $url;
-        $qRecorrido -> save();
-        // return "actualiza su registro";
-        return redirect('/adminRecorridos')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
     }
 
     /**
@@ -117,10 +127,10 @@ class adminRecoController extends Controller
             $data['query']=tblRecorridos::get();
             //return view("admin",$data)->with(['msg'=>'Registro eliminado correctamente.','class'=>'alert-success']);
             return redirect('/adminRecorridos')->with(['msg' => 'Registro eliminado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
-            }catch (\Exception $ex){
+        }
+        catch (\Exception $ex){
             //return view("admin",$data)->with(['msg'=>'Ha ocurrido un error: '.$ex,'class'=>'alert-success']);
             return redirect('/adminRecorridos')->with(['msg' => 'El Registro no se pudo eliminar', 'class' => 'alert-danger alert-dismissible fade show']);
-    
-            }
+        }
     }
 }

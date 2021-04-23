@@ -13,8 +13,8 @@
 
 <br>
 <div class="container">
-<h3>Recorridos</h3>
-<a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Agregar recorrido</a>
+<h3>Tours</h3>
+<a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Agregar Tour</a>
 <br><br>
 <table class="table table-striped border">
     <tr class="table-secondary">
@@ -39,11 +39,11 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Agregar recorrido</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Agregar Tour</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="{{ url('/adminRecorridos') }}">
+        <form method="POST" action="{{ url('/adminTours') }}">
           <!--token forma 1-->
           <!-- @csrf -->
           <!--token forma 2-->

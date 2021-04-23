@@ -16,7 +16,13 @@ class adminToursController extends Controller
     public function index()
     {
         $data['qTours']=tblTours::get();
-        return view("adminTours",$data);
+        if(count($data['qTours'])==0){
+            return view("noadTo");
+        }
+        else{  
+            
+            return view("adminTours",$data);
+        }
     }
 
     /**
@@ -37,19 +43,25 @@ class adminToursController extends Controller
      */
     public function store(Request $request)
     {
-        $query = new tblTours();
-        $query -> ubicacion = $request -> ipUbicacion1;
-        $query -> costo_persona = $request -> ipCosto1;
-        $query -> descripcion = $request -> ttaDescripcion1;
-        $query -> foto = $request -> ipImagen1;
-        date_default_timezone_set("America/Bogota");
-        $time = time();
-        $query -> updated_at = date("d-m-Y H:i:s", $time);
-        
-        // $query -> url = $url;
-        $query -> save();
+        try{
+            $query = new tblTours();
+            $query -> ubicacion = $request -> ipUbicacion1;
+            $query -> costo_persona = $request -> ipCosto1;
+            $query -> descripcion = $request -> ttaDescripcion1;
+            $query -> foto = $request -> ipImagen1;
+            date_default_timezone_set("America/Bogota");
+            $time = time();
+            $query -> updated_at = date("d-m-Y H:i:s", $time);
+            
+            // $query -> url = $url;
+            $query -> save();
 
-        return redirect("/adminTours")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
+            return redirect("/adminTours")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
+
+        }catch(\Exception $ex){
+            return redirect("/adminTours")->with(['msg'=>'Error al crear registro','class'=>'alert-danger ']);
+        }
+        
     }
 
     /**
@@ -83,19 +95,23 @@ class adminToursController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $query=tblTours::find($id);
-        $query -> ubicacion = $request -> ipUbicacion;
-        $query -> costo_persona = $request -> ipCosto;
-        $query -> descripcion = $request -> ttaDescripcion;
-        $query -> foto = $request -> ipImagen;
-        date_default_timezone_set("America/Bogota");
-        $time = time();
-        $query -> updated_at = date("d-m-Y H:i:s", $time);
-        
-        // $query -> url = $url;
-        $query -> save();
-        // return "actualiza su registro";
-        return redirect('/adminTours')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning']);
+        try{
+            $query=tblTours::find($id);
+            $query -> ubicacion = $request -> ipUbicacion;
+            $query -> costo_persona = $request -> ipCosto;
+            $query -> descripcion = $request -> ttaDescripcion;
+            $query -> foto = $request -> ipImagen;
+            date_default_timezone_set("America/Bogota");
+            $time = time();
+            $query -> updated_at = date("d-m-Y H:i:s", $time);
+            
+            // $query -> url = $url;
+            $query -> save();
+            // return "actualiza su registro";
+            return redirect('/adminTours')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning']);
+        }catch(\Exception $ex){
+            return redirect("/adminTours")->with(['msg'=>'Error al modificar registro','class'=>'alert-danger ']);
+        }
     }
 
     /**

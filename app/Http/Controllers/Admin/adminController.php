@@ -19,13 +19,13 @@ class adminController extends Controller
     public function index()
     {
         $data['query']=destinos::get();
-        $data['qRecorrido']=tblRecorridos::get();
-        $data['qTours']=tblTours::get();
-        try{
+        // $data['qRecorrido']=tblRecorridos::get();
+        // $data['qTours']=tblTours::get();
+        if(count($data['query'])==0){
+            return view("noadAlo");
+        }
+        else{  
             return view("admin",$data);
-            
-        }catch(\Exception $ex){
-            return view("hola no tengo planes");
         }
     }
 
@@ -47,22 +47,26 @@ class adminController extends Controller
      */
     public function store(Request $request)
     {
-        
-        // $url= $this -> getUrl($request -> txtDestino);
-        $query = new destinos();
-        $query -> ubicacion = $request -> ipUbicacion1;
-        $query -> estadia = $request -> ipAlojamiento1;
-        $query -> costo_persona = $request -> ipCosto1;
-        $query -> descripcion = $request -> ttaDescripcion1;
-        $query -> foto = $request -> ipImagen1;
-        date_default_timezone_set("America/Bogota");
-        $time = time();
-        $query -> updated_at = date("d-m-Y H:i:s", $time);
-        
-        // $query -> url = $url;
-        $query -> save();
+        try{
+            // $url= $this -> getUrl($request -> txtDestino);
+            $query = new destinos();
+            $query -> ubicacion = $request -> ipUbicacion1;
+            $query -> estadia = $request -> ipAlojamiento1;
+            $query -> costo_persona = $request -> ipCosto1;
+            $query -> descripcion = $request -> ttaDescripcion1;
+            $query -> foto = $request -> ipImagen1;
+            date_default_timezone_set("America/Bogota");
+            $time = time();
+            $query -> updated_at = date("d-m-Y H:i:s", $time);
+            
+            // $query -> url = $url;
+            $query -> save();
 
-        return redirect("/admin")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
+            return redirect("/admin")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
+        }catch(\Exception $ex){
+            return redirect("/admin")->with(['msg'=>'Error al crear registro','class'=>'alert-danger ']);
+        }
+        
     }
 
     /**
@@ -73,12 +77,18 @@ class adminController extends Controller
      */
     public function show($id)
     {
-        //return "Muestra todos los datos de la base de datos id: ".$id;
-        $data=destinos::find($id);
+        try{
+            //return "Muestra todos los datos de la base de datos id: ".$id;
+            $data=destinos::find($id);
+            
+            //llenando la lista de los datos que quedaron
+            $data['query']=destinos::get();
+            return view("admin",$data);
+        }
+        catch(\Exception $ex){
+            return($ex);
+        }
         
-        //llenando la lista de los datos que quedaron
-        $data['query']=destinos::get();
-        return view("admin",$data);
     }
 
     /**
@@ -104,21 +114,25 @@ class adminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $url= $this -> getUrl($request -> ipUbicacion);
-        $query=destinos::find($id);
-        $query -> ubicacion = $request -> ipUbicacion;
-        $query -> estadia = $request -> ipAlojamiento;
-        $query -> costo_persona = $request -> ipCosto;
-        $query -> descripcion = $request -> ttaDescripcion;
-        $query -> foto = $request -> ipImagen;
-        date_default_timezone_set("America/Bogota");
-        $time = time();
-        $query -> updated_at = date("d-m-Y H:i:s", $time);
-        
-        // $query -> url = $url;
-        $query -> save();
-        // return "actualiza su registro";
-        return redirect('/admin')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
+        try{
+            // $url= $this -> getUrl($request -> ipUbicacion);
+            $query=destinos::find($id);
+            $query -> ubicacion = $request -> ipUbicacion;
+            $query -> estadia = $request -> ipAlojamiento;
+            $query -> costo_persona = $request -> ipCosto;
+            $query -> descripcion = $request -> ttaDescripcion;
+            $query -> foto = $request -> ipImagen;
+            date_default_timezone_set("America/Bogota");
+            $time = time();
+            $query -> updated_at = date("d-m-Y H:i:s", $time);
+            
+            // $query -> url = $url;
+            $query -> save();
+            // return "actualiza su registro";
+            return redirect('/admin')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
+        }catch(\Exception $ex){
+            return redirect('/admin')->with(['msg' => 'Error al modificar registro', 'class' => 'alert-danger alert-dismissible fade show']);
+        }
     }
 
     /**

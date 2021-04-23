@@ -257,45 +257,6 @@
 </div>
 <!--fin de modal de modificar--->
 
-<!-- <div class="admin">
-<br>
-<div class="container">
-<hr style="color:white">
-<h3>"No habilitado aun, pagina solo para alojamientos"</h3>
-<a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Agregar recorrido</a>
-<br><br>
-<table class="table table-striped border">
-    <tr class="table-secondary">
-        <th>
-            Id
-        </th>
-        <th>
-            Ubicacion
-        </th>
-        <th></th>
-        <th>Acciones</th>
-        <th></th>
-    </tr>
-
-  
-
-    
-    @foreach($qRecorrido AS $a)
-    <?php  $recorrido=$a ->id.",'".$a -> ubicacion."',".$a -> costo_persona.",'".$a -> descripcion."','".$a -> foto."','".$a -> created_at."','".$a -> updated_at."'";?>
-    
-    <tr>
-        <td id="id_recorrido{{ $a -> id }}" name="">{{ $a -> id }}</td>
-        <td id="ubi_recorrido{{ $a -> id }}" name="">{{ $a -> ubicacion }}</td>
-        <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="seleccProduct2(<?php echo $recorrido?>)">Ver</a></td>
-        <td><a href="" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modalModificar" onclick="editProdut2(<?php echo $recorrido?>)">Actualizar</a></td>
-        <td><a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalBorrar" onclick="seleccBorrar(<?php echo $a -> id?>)">Eliminar</a></td>
-    </tr>
-    @endforeach
-    
-</table>
-<br>
-</div>
-</div> -->
 
 @endsection
 
