@@ -3,6 +3,7 @@
 use App\Http\Controllers\Crud\CrudController;
 use App\Http\Controllers\Datos\ControladorArreglo;
 use App\Http\Controllers\Ruta\Nombrecontroller;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -80,6 +81,11 @@ Route::get('/noadAlo', function () {
 
 Route::get('/noadTo', function () {
     return view('noadTo');
+});
+
+//-------------------------------
+Route::get('/login', function () {
+    return view('login');
 });
 //--------------------------------
 
@@ -221,3 +227,6 @@ Route::get("/conexionprueba",function(){
     //}
     //return phpinfo();
 });
+
+//Route::get('/query', [QueryController::class, 'destinos']);
+Route::get('/query', 'App\Http\Controllers\QueryBuilder\QueryController@destinos');
