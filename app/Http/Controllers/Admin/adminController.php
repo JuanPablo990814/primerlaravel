@@ -159,4 +159,22 @@ class adminController extends Controller
         }
     
     }
+
+    private static function getUrl( $str = '')
+{
+    $buscar = 'áéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛäëïöüÄËÏÖÜñÑÜü ';
+    $cambiar = 'aeiouaeiouaeiouaeiouaeiouaeiouaeiouaeiounnuu-';
+    $patron = '([^A-Za-z0-9-.])';
+
+    $url_titulo = trim($str);
+    $url_titulo = strtr(utf8_decode($url_titulo), utf8_decode($buscar), utf8_decode($cambiar));
+    $url_titulo = preg_replace(utf8_decode($patron), "", utf8_decode($url_titulo));
+    $url_titulo = preg_replace('/--/', '-', $url_titulo);
+    $url_titulo = preg_replace('/---/', '-', $url_titulo);
+    $url_titulo = strtolower($url_titulo);
+
+    return $url_titulo;
+}
+
+
 }

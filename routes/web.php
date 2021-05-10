@@ -230,3 +230,14 @@ Route::get("/conexionprueba",function(){
 
 //Route::get('/query', [QueryController::class, 'destinos']);
 Route::get('/query', 'App\Http\Controllers\QueryBuilder\QueryController@destinos');
+
+
+
+//planes por separado
+// Route::get('/{plan}',function($plan){
+//     return view('plan');
+//     // return ('Hola mundo: '.$plan);
+// })-> where (['plan'=>'[0-9]+']);
+
+Route::get('/{plan}','App\Http\Controllers\Otros\OtrasFuncionesController@porPlan'
+)-> where (['plan'=>'[0-9]+']);

@@ -4,3 +4,8 @@ function enlace() {
     if (valor != "") { location.href = valor; }
     console.log("|"+valor+"|");//imprimiendo en consola
   }
+
+function plan(){
+  var frm = document.getElementById('formPlan');
+  frm.submit();
+}

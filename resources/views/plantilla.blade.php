@@ -13,6 +13,7 @@
     <link href="{{ asset('css/recorridos.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/tours.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/contacto.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/plan.css') }}" rel="stylesheet"/>
     <!-- <link href="{{ asset('css/admin.css') }}" rel="stylesheet"/> -->
     <link rel="shortcut icon" href="{{'img/faviconlaravel.png' }}" />
     <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
@@ -20,6 +21,7 @@
   </head>
 <body>
 <!-- <img id="fondo" src="{{ asset('img/inicio.jpg') }}" alt=""> -->
+<div class="imagen-fondo">
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
     <!-- <img id="logo-img" src="{{ asset('img/logo.png') }}" alt=""> -->
@@ -66,15 +68,14 @@
   </div>
 </nav>
 
-<div class="container">
-    <div class="menu">
-      <br><br><br><br><br><br><br><br><br>
-      <h1>¡Emprende tu aventura!</h1><br>
-      <br><br><br><br><br><br><br><br><br>
-    </div>
+<div class="menu">
+  <!-- <br><br><br><br><br><br><br><br><br> -->
+  <h1>¡Emprende tu aventura!</h1>
+  <!-- <br> -->
+  <!-- <br><br><br><br><br><br><br><br><br> -->
+  </div>
 </div>
 
-<br>
 <div class="fondomorado">
 <div class="container">
 <br>

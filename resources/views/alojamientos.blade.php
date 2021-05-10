@@ -44,7 +44,9 @@
             <div class="col">
                 <ul class="planes">
                     @foreach($query AS $c)
-                    <li data-bs-toggle="modal" data-bs-target="#modalInscribir">
+                    <!-- submit con javascript en el archivo scripts.js -->
+                    <li onclick="plan()">
+                    <form id="formPlan" name="formPlan" action="{{ url ('/') }}/{{ $c -> id }}">
                         <div class="foto">
                             <a>
                                 <img src="{{ $c -> foto }}" alt="{{ $c -> ubicacion }}" title="{{ $c -> ubicacion }}"/>
@@ -59,7 +61,10 @@
                             </a>
                             <p>{{ $c -> descripcion }}</p>
                         </div>
+                      </form>
                     </li>
+                    
+                    
                     @endforeach
                 </ul>
             </div>

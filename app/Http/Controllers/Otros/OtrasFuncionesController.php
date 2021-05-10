@@ -34,4 +34,12 @@ class OtrasFuncionesController extends Controller
         return view("tours",$data);
     }
 
+    public function porPlan($planid){
+        $data['query']=destinos::findOrFail($planid);
+        // dd($data['query']);
+        // return ('/'.$planid);
+        // return view('/{'.$planid.'}');
+        return view('plan',$data);
+    }
+
 }

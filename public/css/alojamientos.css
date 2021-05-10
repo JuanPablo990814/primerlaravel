@@ -1,19 +1,30 @@
 
 /*Alojamientos*/
+.planes{
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .planes li{
     background-color: white;
     /* height: 30%; */
-    width: 30%;
+    width: 280px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
     margin: 0 1% 2% 1%;
     display: inline-block;
     list-style-type: none;
-
     -webkit-box-shadow: 1px 2px 12px 2px #000000; 
     box-shadow: 1px 2px 12px 2px #000000;   
 }
+
+@media (max-width:600px){
+    .planes li {
+        background-color: red;
+    }
+}
+
 
 .planes li .foto{
     position: relative;

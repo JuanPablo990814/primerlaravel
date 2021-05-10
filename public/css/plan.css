@@ -1,0 +1,76 @@
+.planseparado .titulo h1{
+    color: white;
+    margin-left: 20px;
+    font-weight: bold;
+
+    /* margin-bottom: 20px; */
+}
+
+.planseparado .titulo h4{
+    color: white;
+    margin-left: 20px;
+}
+
+.planseparado .titulo{
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,107,9,1) 0%, rgba(59,8,226,1) 100%);
+    -webkit-box-shadow: inset -1px 3px 8px 5px #6d1fff, 2px 5px 16px 0px #0B325E, 5px 5px 15px 5px rgba(0,0,0,0); 
+    box-shadow: inset -1px 3px 8px 5px #6d1fff, 2px 5px 16px 0px #0B325E, 5px 5px 15px 5px rgba(0,0,0,0);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.planseparado img {
+    width: auto !important;
+    height: 600px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.planseparado p{
+    color: white;
+    text-align: justify;
+    
+}
+
+.planseparado button{
+    display: block;
+    margin: auto;
+    color:white !important;
+    background-color: #3b08e2 !important;
+    border-color: #7051d8;
+    box-shadow: red;
+    
+}
+
+.planseparado button:hover{
+
+    color:white !important;
+    background-color: #3b08e2 !important;
+    border-color: white;
+}
+
+/* .planseparado button:focus{
+    box-shadow: rgba(rgba(44, 24, 110, 0.753), green, blue, alpha) !important;
+} */
+
+.btn-check:focus+.btn-primary, .btn-primary:focus {
+    color: #fff;
+    border-color: #3b08e2;
+    box-shadow: 0 0 0 0.25rem #bdb9c74b;
+}
+
+.planseparado button:active{
+    border-color: #3b08e2;
+}
+
+
+
+@media (max-width:991px){
+    .planseparado img{
+        width: 400px !important;
+        height: auto;
+        
+    }
+}
