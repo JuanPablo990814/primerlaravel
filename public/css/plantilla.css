@@ -185,6 +185,11 @@ box-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px
         background-size: 105%;
         background-repeat: no-repeat;
         background-position: center;
-        
     }
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #8180c7 !important;
 }

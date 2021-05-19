@@ -1,0 +1,18 @@
+.inscripcion h2{
+    color: white;
+}
+
+.inscripcion .form-check label{
+    color: white;
+}
+
+.inscripcion .row .col-2 label{
+    color: white;
+}
+.inscripcion label{
+    color: white;
+}
+
+/* @media (max-width:991px){
+
+} */

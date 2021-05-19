@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\models\destinos;
-use App\Models\models\tblRecorridos;
-use App\Models\models\tblTours;
 use Mockery\Undefined;
+use App\Models\DB\Planes;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class adminController extends Controller
 {
@@ -18,9 +18,19 @@ class adminController extends Controller
      */
     public function index()
     {
-        $data['query']=destinos::get();
-        // $data['qRecorrido']=tblRecorridos::get();
-        // $data['qTours']=tblTours::get();
+        // $data['query']=destinos::get();
+        $data['query'] = FacadesDB::table('tblPlanes')
+            ->select('tblPlanes.id as id','tblDestinos.destino as destino',
+            'tblTipoPlan.nombre','tblPlanes.titulo as estadia',
+            'tblPlanes.url','tblPlanes.descripcion as descripcion',
+            'tblPlanes.Imagen as img','tblPlanes.costo_persona as costo_persona',
+            'tblPlanes.created_at',
+            'tblPlanes.updated_at')
+            ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
+            ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
+            ->where('tblTipoPlan.nombre','=','Alojamientos')
+            ->get();
+            // dd($data);
         if(count($data['query'])==0){
             return view("noadAlo");
         }
@@ -48,19 +58,20 @@ class adminController extends Controller
     public function store(Request $request)
     {
         try{
-            // $url= $this -> getUrl($request -> txtDestino);
-            $query = new destinos();
-            $query -> ubicacion = $request -> ipUbicacion1;
-            $query -> estadia = $request -> ipAlojamiento1;
+            $query = new Planes();
+            $query -> id_destinos = $request -> selDestino1;
+            //1 por ser alojamiento
+            $query -> id_tipo =1;
+            $query -> titulo = $request -> ipAlojamiento1;
+            $query -> url = $this -> getUrl($request -> ipAlojamiento1);
             $query -> costo_persona = $request -> ipCosto1;
             $query -> descripcion = $request -> ttaDescripcion1;
-            $query -> foto = $request -> ipImagen1;
+            $query -> Imagen = $request -> ipImagen1;
             date_default_timezone_set("America/Bogota");
             $time = time();
             $query -> updated_at = date("d-m-Y H:i:s", $time);
-            
-            // $query -> url = $url;
             $query -> save();
+            // dd($query);
 
             return redirect("/admin")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
         }catch(\Exception $ex){
@@ -114,21 +125,22 @@ class adminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try{
-            // $url= $this -> getUrl($request -> ipUbicacion);
-            $query=destinos::find($id);
-            $query -> ubicacion = $request -> ipUbicacion;
-            $query -> estadia = $request -> ipAlojamiento;
+        try
+        {
+            $query=Planes::find($id);
+            $query -> id_destinos = $request -> selDestino;
+            //1 por que en la base de datos es alojamiento
+            $query -> id_tipo = 1;
+            $query -> titulo = $request -> ipAlojamiento;
+            $query -> url = $this -> getUrl($request -> ipAlojamiento);
             $query -> costo_persona = $request -> ipCosto;
             $query -> descripcion = $request -> ttaDescripcion;
-            $query -> foto = $request -> ipImagen;
+            $query -> Imagen = $request -> ipImagen;
             date_default_timezone_set("America/Bogota");
             $time = time();
             $query -> updated_at = date("d-m-Y H:i:s", $time);
-            
-            // $query -> url = $url;
+            // dd($query);
             $query -> save();
-            // return "actualiza su registro";
             return redirect('/admin')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
         }catch(\Exception $ex){
             return redirect('/admin')->with(['msg' => 'Error al modificar registro', 'class' => 'alert-danger alert-dismissible fade show']);
@@ -145,36 +157,34 @@ class adminController extends Controller
     {
         //borrando datos
         try{
-        $data=destinos::find($id);
-        $data-> delete();
+            $data=Planes::find($id);
+            $data-> delete();
 
-        //llenando la lista de los datos que quedaron
-        $data['query']=destinos::get();
-        //return view("admin",$data)->with(['msg'=>'Registro eliminado correctamente.','class'=>'alert-success']);
-        return redirect('/admin')->with(['msg' => 'Registro eliminado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
-        }catch (\Exception $ex){
-        //return view("admin",$data)->with(['msg'=>'Ha ocurrido un error: '.$ex,'class'=>'alert-success']);
-        return redirect('/admin')->with(['msg' => 'El Registro no se pudo eliminar', 'class' => 'alert-danger alert-dismissible fade show']);
+            return redirect('/admin')->with(['msg' => 'Registro eliminado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
+        }
+        catch (\Exception $ex){
+        
+            return redirect('/admin')->with(['msg' => 'El Registro no se pudo eliminar', 'class' => 'alert-danger alert-dismissible fade show']);
 
         }
     
     }
 
     private static function getUrl( $str = '')
-{
-    $buscar = 'áéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛäëïöüÄËÏÖÜñÑÜü ';
-    $cambiar = 'aeiouaeiouaeiouaeiouaeiouaeiouaeiouaeiounnuu-';
-    $patron = '([^A-Za-z0-9-.])';
+    {
+        $buscar = 'áéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛäëïöüÄËÏÖÜñÑÜü ';
+        $cambiar = 'aeiouaeiouaeiouaeiouaeiouaeiouaeiouaeiounnuu-';
+        $patron = '([^A-Za-z0-9-.])';
 
-    $url_titulo = trim($str);
-    $url_titulo = strtr(utf8_decode($url_titulo), utf8_decode($buscar), utf8_decode($cambiar));
-    $url_titulo = preg_replace(utf8_decode($patron), "", utf8_decode($url_titulo));
-    $url_titulo = preg_replace('/--/', '-', $url_titulo);
-    $url_titulo = preg_replace('/---/', '-', $url_titulo);
-    $url_titulo = strtolower($url_titulo);
+        $url_titulo = trim($str);
+        $url_titulo = strtr(utf8_decode($url_titulo), utf8_decode($buscar), utf8_decode($cambiar));
+        $url_titulo = preg_replace(utf8_decode($patron), "", utf8_decode($url_titulo));
+        $url_titulo = preg_replace('/--/', '-', $url_titulo);
+        $url_titulo = preg_replace('/---/', '-', $url_titulo);
+        $url_titulo = strtolower($url_titulo);
 
-    return $url_titulo;
-}
+        return $url_titulo;
+    }
 
 
 }

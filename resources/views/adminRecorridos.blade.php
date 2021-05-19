@@ -24,27 +24,31 @@
         <th>
             Ubicacion
         </th>
+        <th>
+            Nombre de Recorrido
+        </th>
         <th></th>
         <th>Acciones</th>
         <th></th>
     </tr>
 
-  
-
-    
     @foreach($qRecorrido AS $a)
-    <?php  $recorrido=$a ->id.",'".$a -> ubicacion."',".$a -> costo_persona.",'".$a -> descripcion."','".$a -> foto."','".$a -> created_at."','".$a -> updated_at."'";?>
+    <!-- id,ubicacion,titulo,costo,descripcion,imagen,fcreado,fupdate -->
+    <?php  $recorrido=$a ->id.",'".$a ->destino."','".$a -> titulo."',".$a -> costo_persona.",'".$a -> descripcion."','".$a -> img."','".$a -> created_at."','".$a -> updated_at."'";?>
     
     <tr>
         <td id="id_recorrido{{ $a -> id }}" name="">{{ $a -> id }}</td>
-        <td id="ubi_recorrido{{ $a -> id }}" name="">{{ $a -> ubicacion }}</td>
-        <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="seleccProduct2(<?php echo $recorrido?>)">Ver</a></td>
-        <td><a href="" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modalModificar" onclick="editProdut2(<?php echo $recorrido?>)">Actualizar</a></td>
+        <td id="ubi_recorrido{{ $a -> id }}" name="">{{ $a -> destino }}</td>
+        <td id="nom_recorrido{{ $a -> id }}" name="">{{ $a -> titulo }}</td>
+        <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="seleccProduct(<?php echo $recorrido?>)">Ver</a></td>
+        <td><a href="" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modalModificar" onclick="editProdut(<?php echo $recorrido?>)">Actualizar</a></td>
         <td><a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalBorrar" onclick="seleccBorrar(<?php echo $a -> id?>)">Eliminar</a></td>
     </tr>
     @endforeach
     
 </table>
+<br>
+<br>
 <br>
 </div>
 </div>
@@ -55,7 +59,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalModificar">Agregar Alojamiento</h5>
+        <h5 class="modal-title" id="modalModificar">Modificar Recorrido</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -64,30 +68,36 @@
           @csrf
           <!--token forma 2-->
           <!-- <input name="_token" type="hidden" value="{{ csrf_token() }}"> -->
-
           @method('PUT')
-
           <div class="mb-1 col-12">
             <h5 id=h5id name="h5id"> </h5>
           </div>
           <div class="mb-1 col-12">
-            <label for="Ubicacion" class="form-label">Ubicacion</label>
-            <input type="text" class="form-control" id="ipUbicacion" name="ipUbicacion" placeholder="Ingrese el nombre de la ubicación">
+            <label for="Ubicacion" class="form-label"><strong>Ubicacion</strong></label>
+            <select id ="selDestino" name="selDestino" class="form-select" aria-label="Default select example">
+              <option selected>Open this select menu</option>
+              <option value="1">La Pintada</option>
+              <option value="2">Amaga</option>
+              <option value="3">Jardín</option>
+              <option value="4">Santa Fe de Antioquia</option>
+              <option value="5">San Jerónimo</option>
+            </select>
+            <!-- <input type="text" class="form-control" id="ipUbicacion" name="ipUbicacion" placeholder="Ingrese el nombre de la ubicación"> -->
           </div>
           <div class="mb-1 col-12" name="modAlojamientotxt" style="display:contents">
-            <label for="Alojamiento" class="form-label">Alojamiento</label>
+            <label for="Alojamiento" class="form-label"><strong>Alojamiento</strong></label>
             <input type="text" class="form-control" id="ipAlojamiento" name="ipAlojamiento" placeholder="Ingrese el nombre del alojamiento">           
           </div>
           <div class="mb-1 col-12">
-            <label for="Costo" class="form-label">Costo</label>
+            <label for="Costo" class="form-label"><strong>Costo</strong></label>
             <input type="number" class="form-control" id="ipCosto" name="ipCosto" placeholder="Ingrese el costo del plan">           
           </div>
           <div class="mb-2 col-12">
-            <label for="descripcion" class="form-label">Descripción</label>
+            <label for="descripcion" class="form-label"><strong>Descripción</strong></label>
             <textarea class="form-control" id="ttaDescripcion" name="ttaDescripcion" rows="3" placeholder="Ingrese la descripción del plan"></textarea>
           </div>
           <div class="mb-1 col-12">
-            <label for="imagen" class="form-label">Imagen</label>
+            <label for="imagen" class="form-label"><strong>Imagen</strong></label>
             <input type="text" class="form-control" id="ipImagen" name="ipImagen" placeholder="Ingrese la imagen 'por ahora'">           
           </div>
           <br>
@@ -115,7 +125,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         
-        <form name=formBorrar method="POST" action="{{ url ('admin/') }}">
+        <form name=formBorrar method="POST" action="{{ url ('adminRecorridos/') }}">
           @csrf
           @method('DELETE')
           <button type="submit" class="btn btn-danger">Borrar Registro</button>
@@ -154,8 +164,9 @@
               <th><h5><strong>Ubicacion</strong></h5></th>
               <td><h5 id="txtUbicacion" name="txtUbicacion"></h5></td>
             </tr>
-            <tr name="modAlojamiento" style="display:contents">
-              <th><h5><strong>Alojamiento</strong></h5></th>
+            <!-- <tr name="modAlojamiento" style="display:contents"> -->
+            <tr name="modAlojamiento">
+              <th><h5><strong>Titulo</strong></h5></th>
               <td><h5 id="txtAlojamiento" name="txtAlojamiento"></h5></td>
             </tr>
             <tr>
@@ -196,7 +207,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Agregar Alojamiento</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Agregar Recorrido</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -207,21 +218,37 @@
           <input name="_token" type="hidden" value="{{ csrf_token() }}">
 
           <div class="mb-1 col-12">
-            <label for="Ubicacion" class="form-label">Ubicacion</label>
-            <input type="text" class="form-control" id="ipUbicacion1" name="ipUbicacion1" placeholder="Ingrese el nombre de la ubicación">
+            <label for="Ubicacion" class="form-label"><strong>Ubicacion</strong></label>
+            <!-- <input type="text" class="form-control" id="ipUbicacion1" name="ipUbicacion1" placeholder="Ingrese el nombre de la ubicación"> -->
+            <select id ="selDestino1" name="selDestino1" class="form-select" aria-label="Default select example">
+              <option selected>Open this select menu</option>
+              <option value="1">La Pintada</option>
+              <option value="2">Amaga</option>
+              <option value="3">Jardín</option>
+              <option value="4">Santa Fe de Antioquia</option>
+              <option value="5">San Jerónimo</option>
+            </select>
           </div>
           <div class="mb-1 col-12">
-            <label for="Costo" class="form-label">Costo</label><label for="Costo" class="obligatorio form-label">*</label>
+            <label for="Alojamiento" class="form-label"><strong>Titulo</strong></label>
+            <input type="text" class="form-control" id="ipAlojamiento1" name="ipAlojamiento1" placeholder="Ingrese el nombre del alojamiento">           
+          </div>
+          <div class="mb-1 col-12">
+            <label for="Costo" class="form-label"><strong>Costo</strong></label><label for="Costo" class="obligatorio form-label">*</label>
             <input type="number" class="form-control" id="ipCosto1" name="ipCosto1" placeholder="Ingrese el costo del plan">           
           </div>
           <div class="mb-2 col-12">
-            <label for="descripcion" class="form-label">Descripción</label>
+            <label for="descripcion" class="form-label"><strong>Descripción</strong></label>
             <textarea class="form-control" id="ttaDescripcion1" name="ttaDescripcion1" rows="3" placeholder="Ingrese la descripción del plan"></textarea>
           </div>
           <div class="mb-1 col-12">
-            <label for="imagen" class="form-label">Imagen</label>
+            <label for="imagen" class="form-label"><strong>Imagen</strong></label>
             <input type="text" class="form-control" id="ipImagen1" name="ipImagen1" placeholder="Ingrese la imagen 'por ahora'" value="https://loremflickr.com/320/240/travel">           
           </div>
+          <div class="mb-1 col-12">
+            <input type="file" class="form-control" id="_file_" name="archivo" placeholder="" value="https://loremflickr.com/320/240/travel">      
+          </div>
+
           <br>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-primary">Añadir </button>    

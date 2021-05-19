@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\models\tblRecorridos;
 use App\Models\models\tblTours;
+use App\Models\DB\Planes;
+use Illuminate\Support\Facades\DB as FacadesDB;
+
 
 class adminRecoController extends Controller
 {
@@ -16,8 +19,19 @@ class adminRecoController extends Controller
      */
     public function index()
     {
-        $data['qRecorrido']=tblRecorridos::get();
-
+        // $data['qRecorrido']=tblRecorridos::get();
+        $data['qRecorrido'] = FacadesDB::table('tblPlanes')
+        ->select('tblPlanes.id as id','tblDestinos.destino as destino',
+        'tblTipoPlan.nombre','tblPlanes.titulo as titulo',
+        'tblPlanes.url','tblPlanes.descripcion as descripcion',
+        'tblPlanes.Imagen as img','tblPlanes.costo_persona as costo_persona',
+        'tblPlanes.created_at',
+        'tblPlanes.updated_at')
+        ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
+        ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
+        ->where('tblTipoPlan.nombre','=','Recorridos')
+        ->get();
+        // dd($data);
         return view("adminRecorridos",$data);
     }
 
@@ -39,19 +53,21 @@ class adminRecoController extends Controller
      */
     public function store(Request $request)
     {
-        // $url= $this -> getUrl($request -> txtDestino);
         try{
-            $query = new tblRecorridos();
-            $query -> ubicacion = $request -> ipUbicacion1;
+            $query = new Planes();
+            $query -> id_destinos = $request -> selDestino1;
+            //1 por ser recorridos
+            $query -> id_tipo =2;
+            $query -> titulo = $request -> ipAlojamiento1;
+            $query -> url = $this -> getUrl($request -> ipAlojamiento1);
             $query -> costo_persona = $request -> ipCosto1;
             $query -> descripcion = $request -> ttaDescripcion1;
-            $query -> foto = $request -> ipImagen1;
+            $query -> Imagen = $request -> ipImagen1;
             date_default_timezone_set("America/Bogota");
             $time = time();
             $query -> updated_at = date("d-m-Y H:i:s", $time);
-            
-            // $query -> url = $url;
             $query -> save();
+            // dd($query);
     
             return redirect("/adminRecorridos")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
         }catch(\Exception $ex){
@@ -92,18 +108,21 @@ class adminRecoController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $qRecorrido=tblRecorridos::find($id);
-            $qRecorrido -> ubicacion = $request -> ipUbicacion;
-            $qRecorrido -> costo_persona = $request -> ipCosto;
-            $qRecorrido -> descripcion = $request -> ttaDescripcion;
-            $qRecorrido -> foto = $request -> ipImagen;
+            $query=Planes::find($id);
+            $query -> id_destinos = $request -> selDestino;
+            //2 por que es tipo recorridos
+            $query -> id_tipo = 2;
+            $query -> titulo = $request -> ipAlojamiento;
+            $query -> url = $this -> getUrl($request -> ipAlojamiento);
+            $query -> costo_persona = $request -> ipCosto;
+            $query -> descripcion = $request -> ttaDescripcion;
+            $query -> Imagen = $request -> ipImagen;
             date_default_timezone_set("America/Bogota");
             $time = time();
-            $qRecorrido -> updated_at = date("d-m-Y H:i:s", $time);
-            
-            // $query -> url = $url;
-            $qRecorrido -> save();
-            // return "actualiza su registro";
+            $query -> updated_at = date("d-m-Y H:i:s", $time);
+            // dd($query);
+            $query -> save();
+
             return redirect('/adminRecorridos')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
         }catch(\Exception $ex){
             return redirect('/adminRecorridos')->with(['msg' => 'Error al modificar el registro', 'class' => 'alert-danger alert-dismissible fade show']);
@@ -120,17 +139,28 @@ class adminRecoController extends Controller
     public function destroy($id)
     {
         try{
-            $data=tblRecorridos::find($id);
+            $data=Planes::find($id);
             $data-> delete();
-    
-            //llenando la lista de los datos que quedaron
-            $data['query']=tblRecorridos::get();
-            //return view("admin",$data)->with(['msg'=>'Registro eliminado correctamente.','class'=>'alert-success']);
             return redirect('/adminRecorridos')->with(['msg' => 'Registro eliminado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
         }
         catch (\Exception $ex){
-            //return view("admin",$data)->with(['msg'=>'Ha ocurrido un error: '.$ex,'class'=>'alert-success']);
             return redirect('/adminRecorridos')->with(['msg' => 'El Registro no se pudo eliminar', 'class' => 'alert-danger alert-dismissible fade show']);
         }
+    }
+
+    private static function getUrl( $str = '')
+    {
+        $buscar = 'áéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛäëïöüÄËÏÖÜñÑÜü ';
+        $cambiar = 'aeiouaeiouaeiouaeiouaeiouaeiouaeiouaeiounnuu-';
+        $patron = '([^A-Za-z0-9-.])';
+
+        $url_titulo = trim($str);
+        $url_titulo = strtr(utf8_decode($url_titulo), utf8_decode($buscar), utf8_decode($cambiar));
+        $url_titulo = preg_replace(utf8_decode($patron), "", utf8_decode($url_titulo));
+        $url_titulo = preg_replace('/--/', '-', $url_titulo);
+        $url_titulo = preg_replace('/---/', '-', $url_titulo);
+        $url_titulo = strtolower($url_titulo);
+
+        return $url_titulo;
     }
 }

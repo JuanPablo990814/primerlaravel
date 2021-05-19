@@ -4,8 +4,16 @@
 <!-- filtros -->
 <div class="row ">
   <div class="col-4 filtrostyle">
-
+    <br>
     <h5 class="titulo-texto">Filtros</h5>
+    <div class="col-11">
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn btn-light" type="submit">Buscar</button>
+      </form>
+      <br>
+    </div>
+    <h5 class="titulo-texto">Tipo de Plan</h5>
     <div class="dropdown">
           <a class="btn btn-dark dropdown-toggle botonancho" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             Tipo de plan
@@ -17,18 +25,19 @@
             <li><a class="dropdown-item" href="{{ url('/tours') }}">Tours</a></li>
           </ul>
     </div>
+    <br>
     <h5 class="titulo-texto">Presupuesto</h5>
     <form action="{{ url('/filtro') }}">
     @csrf
     <div class="input-group mb-3 botonancho">
       <span class="input-group-text">$</span>
-      <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="filtrodinero" name="filtrodinero" required>
+      <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" id="filtrodinero" name="filtrodinero" value="<?php echo $filtro?>" required>
       <span class="input-group-text">.00</span>
     </div>
       <button type="submit" class="btn btn-primary" id="btnfiltrar">Añadir </button>
       <a type="submit" class="btn btn-primary" id="btnfiltrar" href="{{ url('/') }}">Quitar Filtros </a> 
     </form>
-    <br><br>  
+    <br><br>
   </div>
 
   <div class="col-7">
@@ -45,16 +54,16 @@
                 <ul class="planes">
                     @foreach($query AS $c)
                     <!-- submit con javascript en el archivo scripts.js -->
-                    <li onclick="plan()">
-                    <form id="formPlan" name="formPlan" action="{{ url ('/') }}/{{ $c -> id }}">
+                    <li onclick="plan(<?php echo $c ->id ?>)">
+                    <form id="formPlan{{ $c -> id }}" name="formPlan{{ $c -> id }}" action="{{ url ('/') }}/{{ $c -> id }}">
                         <div class="foto">
                             <a>
-                                <img src="{{ $c -> foto }}" alt="{{ $c -> ubicacion }}" title="{{ $c -> ubicacion }}"/>
+                                <img src="{{ $c -> img }}" alt="{{ $c -> destino }}" title="{{ $c -> destino }}"/>
                             </a>
                             <span>{{ $c -> costo_persona }} por persona</span>
                         </div>
                         <div class="descripcion">
-                            <h5>{{ $c -> ubicacion }}</h5>
+                            <h5>{{ $c -> destino }}</h5>
                             <a>
                                 <!-- estadia es alojamiento -->
                                 <h2>{{ $c -> estadia }}</h2>

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\PackCrud;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\models\destinos;
-use App\Models\models\tblRecorridos;
+// use App\Models\models\destinos;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class recorridosController extends Controller
 {
@@ -16,10 +16,29 @@ class recorridosController extends Controller
      */
     public function index()
     {
+        // try{
+            // $data['query']=tblRecorridos::get();
+            // return view("recorridos",$data);
+        // }
+        // catch(\Exception $ex){
+        //     return view("withoutplanes");
+        // }
+
         try{
-            // $data['query']=destinos::get();
-        $data['query']=tblRecorridos::get();
-        return view("recorridos",$data);
+            $data['filtro'] =0;
+            $data['query'] = FacadesDB::table('tblPlanes')
+            ->select('tblPlanes.id as id','tblDestinos.destino as destino',
+            'tblTipoPlan.nombre','tblPlanes.titulo as titulo',
+            'tblPlanes.url','tblPlanes.descripcion as descripcion',
+            'tblPlanes.Imagen as img','tblPlanes.costo_persona as costo_persona',
+            'tblPlanes.created_at',
+            'tblPlanes.updated_at')
+            ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
+            ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
+            ->where('tblTipoPlan.nombre','=','Recorridos')
+            ->get();
+            // dd($data);
+            return view("recorridos",$data);
         }
         catch(\Exception $ex){
             return view("withoutplanes");

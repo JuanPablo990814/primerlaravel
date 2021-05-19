@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class QueryController extends Controller
 {
+
+    //NO FUE NECESARIO CREAR UN MODELO PARA CADA TABLA SOLO SE LLAMO POR EL NOMBRE TAL CUAL ESTA EN LA BASE DE DATOS
+
     //select * from tblAlojamientos
     // public function destinos(){
     //     $query = DB::table('tblAlojamientos')->get();

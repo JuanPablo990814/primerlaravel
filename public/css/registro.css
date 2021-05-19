@@ -1,0 +1,15 @@
+.registro h1{
+    color: white;
+
+}
+
+.registro label{
+    color: white;
+}
+
+.registro{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}

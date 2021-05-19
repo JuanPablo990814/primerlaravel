@@ -10,14 +10,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
     <link href="{{ asset('css/plantilla.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/alojamientos.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/inscripcion.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/recorridos.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/tours.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/contacto.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/registro.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/plan.css') }}" rel="stylesheet"/>
     <!-- <link href="{{ asset('css/admin.css') }}" rel="stylesheet"/> -->
     <link rel="shortcut icon" href="{{'img/faviconlaravel.png' }}" />
     <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
-  
+    
+
+
   </head>
 <body>
 <!-- <img id="fondo" src="{{ asset('img/inicio.jpg') }}" alt=""> -->
@@ -61,8 +65,10 @@
         </li> -->
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn btn-light" type="submit">Search</button>
+        <input id="inEmail" class="form-control me-2" type="email" placeholder="Email">
+        <br>
+        <input id="inPassword" class="form-control me-2" type="password" placeholder="Password">
+        <button class="btn btn btn-light" type="submit">Login</button>
       </form>
     </div>
   </div>

@@ -229,6 +229,8 @@ Route::get("/conexionprueba",function(){
 });
 
 //Route::get('/query', [QueryController::class, 'destinos']);
+
+//QUERY BUILDER
 Route::get('/query', 'App\Http\Controllers\QueryBuilder\QueryController@destinos');
 
 
@@ -239,5 +241,69 @@ Route::get('/query', 'App\Http\Controllers\QueryBuilder\QueryController@destinos
 //     // return ('Hola mundo: '.$plan);
 // })-> where (['plan'=>'[0-9]+']);
 
-Route::get('/{plan}','App\Http\Controllers\Otros\OtrasFuncionesController@porPlan'
+// Route::get('/{plan}','App\Http\Controllers\Otros\OtrasFuncionesController@porPlan'
+// )-> where (['plan'=>'[0-9]+']);
+
+Route::get('/{plan}','App\Http\Controllers\Otros\OtrasFuncionesController@porPlanAlojamiento'
 )-> where (['plan'=>'[0-9]+']);
+
+// Route::get('/inscripcion/{id}', function () {
+//     return view('inscripcion');
+// })-> where (['plan'=>'[0-9]+']);
+
+
+Route::get('/inscripcion/{url}','App\Http\Controllers\Otros\OtrasFuncionesController@Inscripcion'
+)-> where (['url'=>'[A-Za-z0-9-]+']);
+
+
+Route::get('/registro', function () {
+    return view('registro');
+});
+
+//guardando en base de datos el registro
+Route::get('/registro/registrando', 'App\Http\Controllers\Otros\OtrasFuncionesController@Registro');
+
+
+
+
+Route::get("/horatest",function(){
+
+    $array=[
+        [7,'07:00 A.M.'],
+        [8,'08:00 A.M.'],
+        [9,'09:00 A.M.'],
+        [10,'10:00 A.M.'],
+        [11,'11:00 A.M.'],
+        [12,'12:00 A.M.'],
+        [13,'01:00 P.M.'],
+        [14,'02:00 P.M.'],
+        [15,'03:00 P.M.'],
+        [16,'04:00 P.M.'],
+        [17,'05:00 P.M.'],
+        [18,'06:00 P.M.'],
+        [19,'07:00 P.M.'],
+        [20,'08:00 P.M.']
+    ];
+
+    $time = [];
+
+    $currentDate = new DateTime();
+    $currentDate->modify('+4 hours');
+    $currentTime=(int)$currentDate->format('G');
+    
+    // dd($currentDate);
+    
+    foreach ($array as $c):
+        if($c[0] >= $currentTime):
+            array_push($time , [ $c[0],$c[1] ]);
+        endif;
+    endforeach;
+
+    // if(count($time)==0):
+    //     $time = $array;
+
+    dd($currentTime);
+
+    
+
+});
