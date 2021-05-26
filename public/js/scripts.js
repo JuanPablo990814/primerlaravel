@@ -10,23 +10,15 @@ function plan(id){
   frm.submit();
 }
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-  'use strict'
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
+// function fechaSeleccionada(){
+//   var fecha = picker.toString('YYYY-MM-DD');
+//   console.log(fecha)
+// }
 
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-
-        form.classList.add('was-validated')
-      }, false)
-    })
-})()
+function javascript_to_php(pagina) {
+  var fecha = picker.toString('YYYY-MM-DD');
+  console.log(pagina);
+  // window.location.href = window.location.href + "w1=" + jsVar1 + "&w2=" + jsVar2;
+  window.location.href = pagina + "?fecha="+fecha;
+}

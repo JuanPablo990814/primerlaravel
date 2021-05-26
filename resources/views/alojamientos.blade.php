@@ -2,6 +2,14 @@
 
 @section('content')
 <!-- filtros -->
+
+@if (session('msg'))
+    <div class="alert {{ session('class') }}">
+        {{ session('msg') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    </div>
+@endif
+
 <div class="row ">
   <div class="col-4 filtrostyle">
     <br>

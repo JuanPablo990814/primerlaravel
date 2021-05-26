@@ -74,7 +74,9 @@
       <div class="accordion-body">
         <a class="nav-link" href="{{ url('/admin') }}">Alojamientos</a>
         <a class="nav-link" href="{{ url('/adminRecorridos') }}">Recorridos</a>
-        <a class="nav-link" href="{{ url('/adminTours') }}">Tours</a>             
+        <a class="nav-link" href="{{ url('/adminTours') }}">Tours</a>
+        <a class="nav-link" href="{{ url('/pedidos') }}">Pedidos</a>
+                      
       </div>
     </div>
     </div>

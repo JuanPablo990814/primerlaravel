@@ -13,6 +13,25 @@
     color: white;
 }
 
+.inscripcion #datepicker1{
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    height: 37px;
+    width:194px;
+}
+
+.inscripcion span{
+    color: white !important;
+}
+
 /* @media (max-width:991px){
 
 } */
+
+@media (max-width:991px){
+    #botones1{
+        width: 100px !important;
+        margin-bottom: 10px;
+    }
+}

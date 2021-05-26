@@ -253,7 +253,7 @@ Route::get('/{plan}','App\Http\Controllers\Otros\OtrasFuncionesController@porPla
 
 
 Route::get('/inscripcion/{url}','App\Http\Controllers\Otros\OtrasFuncionesController@Inscripcion'
-)-> where (['url'=>'[A-Za-z0-9-]+']);
+)-> where (['url'=>'[A-Za-z0-9-&?=]+']);
 
 
 Route::get('/registro', function () {
@@ -302,8 +302,16 @@ Route::get("/horatest",function(){
     // if(count($time)==0):
     //     $time = $array;
 
-    dd($currentTime);
+    dd($time);
+});
 
-    
+// Route::get('/registro', function () {
+//     return view('registro');
+// });
 
+// //guardando en base de datos el registro
+Route::get('/Inscripcion/Inscribiendo', 'App\Http\Controllers\Otros\OtrasFuncionesController@InscripcionPlan');
+
+Route::get('/pedidos', function () {
+    return view('pedidos');
 });

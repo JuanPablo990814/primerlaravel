@@ -20,10 +20,9 @@
     <link rel="shortcut icon" href="{{'img/faviconlaravel.png' }}" />
     <script type="text/javascript" src="{{ asset('js/scripts.js') }}"></script>
     
-
-
   </head>
 <body>
+
 <!-- <img id="fondo" src="{{ asset('img/inicio.jpg') }}" alt=""> -->
 <div class="imagen-fondo">
 <nav class="navbar navbar-expand-lg navbar-light">
@@ -87,7 +86,6 @@
 <br>
 <br>
 
-
 @yield('content')
 
 </div>       
@@ -101,6 +99,23 @@
   
 </footer>
 
+
+
+<link rel="stylesheet" type="text/css" href="{{ asset('css/lightpick.css') }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="{{ asset('js/lightpick.js') }}"></script>
+<script>
+  var picker = new Lightpick({ 
+    field: document.getElementById('datepicker1'),
+    onSelect:function(date){
+      document.getElementById('fechaSeleccionada').innerHTML = date.format('Do MMMM YYYY');
+    }
+    
+  });
+  // picker.setDisableDates([moment().startOf('month'),['2021-05-19'],['2021-05-24']])
+  // picker.setDateRange(new Date(),null);
+  picker.setDate(new Date());
+</script>
 
 </body>
 </html>
