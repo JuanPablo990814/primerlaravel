@@ -193,3 +193,19 @@ box-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px
     text-decoration: none;
     background-color: #8180c7 !important;
 }
+
+.titulolog{
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    margin: 20px;
+    
+}
+
+.titulolog:hover{
+    color: #ff6b09;
+}
+
+.btnEspacio{
+    margin: 10px;
+}

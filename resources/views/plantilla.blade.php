@@ -28,7 +28,7 @@
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
     <!-- <img id="logo-img" src="{{ asset('img/logo.png') }}" alt=""> -->
-      <a id="logo-text" class="navbar-brand col-2" href="#">Viajes.<span>loc</span></a>
+      <a id="logo-text" class="navbar-brand col-2" href="{{ url('/') }}">Viajes.<span>loc</span></a>
       
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -63,12 +63,44 @@
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li> -->
       </ul>
-      <form class="d-flex">
-        <input id="inEmail" class="form-control me-2" type="email" placeholder="Email">
+
+
+      <?php
+        $url=url('dashboard');
+
+        if(isset($correo)){
+          echo "<a class='titulolog' href='".$url."'><strong>".$correo."</strong></a>";
+          $email="hidden";
+          $password="hidden";
+          $btnText="Cerrar Sesión";
+          $formAction=url('logout2');
+          $metodo="";
+
+        }else{
+          // echo "<h6>No existe sesion</h6>";
+          $email="email";
+          $password="password";
+          $btnText="Login";
+          $formAction=url('login');
+          $metodo="post";
+        }
+
+      ?>
+      <form class="d-flex" method="<?php echo $metodo?>" action="<?php echo $formAction?>">
+        @csrf
+        <input id="email" name="email" class="form-control me-2" type="<?php echo $email?>" placeholder="Email">
         <br>
-        <input id="inPassword" class="form-control me-2" type="password" placeholder="Password">
-        <button class="btn btn btn-light" type="submit">Login</button>
+        <input id="password" name="password" class="form-control me-2" type="<?php echo $password?>" placeholder="Password">
+        <button class="btn btn btn-light" type="submit"><?php echo $btnText?></button>
       </form>
+
+      <?php
+      if(!isset($correo)){
+        echo "<a class='btn btn btn-light btnEspacio' type='button' href=".url('register').">Registrarse</a>";
+      }
+      ?>
+      <!-- <a class="btn btn btn-light btnEspacio" type="button" href="{{ url('register') }}">Registrarse</a> -->
+
     </div>
   </div>
 </nav>
@@ -103,19 +135,11 @@
 
 <link rel="stylesheet" type="text/css" href="{{ asset('css/lightpick.css') }}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{ asset('js/lightpick.js') }}"></script>
-<script>
-  var picker = new Lightpick({ 
-    field: document.getElementById('datepicker1'),
-    onSelect:function(date){
-      document.getElementById('fechaSeleccionada').innerHTML = date.format('Do MMMM YYYY');
-    }
-    
-  });
-  // picker.setDisableDates([moment().startOf('month'),['2021-05-19'],['2021-05-24']])
-  // picker.setDateRange(new Date(),null);
-  picker.setDate(new Date());
-</script>
+<!-- <script src="{{ asset('js/pickerPrueba.js') }}"></script> -->
+<script src="{{ asset('js/horajquery.js') }}"></script>
+
 
 </body>
 </html>

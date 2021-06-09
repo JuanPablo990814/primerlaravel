@@ -7,8 +7,8 @@
     <br>
     <h5 class="titulo-texto">Filtros</h5>
     <div class="col-11">
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <form class="d-flex" action="{{ url('Buscar-Tours') }}">
+        <input id="inpSearch" name="inpSearch" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="{{$busqueda}}">
         <button class="btn btn btn-light" type="submit">Buscar</button>
       </form>
       <br>

@@ -25,7 +25,7 @@ class adminController extends Controller
             'tblPlanes.url','tblPlanes.descripcion as descripcion',
             'tblPlanes.Imagen as img','tblPlanes.costo_persona as costo_persona',
             'tblPlanes.created_at',
-            'tblPlanes.updated_at')
+            'tblPlanes.updated_at','tblPlanes.estado')
             ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
             ->where('tblTipoPlan.nombre','=','Alojamientos')
@@ -67,6 +67,7 @@ class adminController extends Controller
             $query -> costo_persona = $request -> ipCosto1;
             $query -> descripcion = $request -> ttaDescripcion1;
             $query -> Imagen = $request -> ipImagen1;
+            $query -> estado = $request -> selEstado1;
             date_default_timezone_set("America/Bogota");
             $time = time();
             $query -> updated_at = date("d-m-Y H:i:s", $time);
@@ -136,6 +137,7 @@ class adminController extends Controller
             $query -> costo_persona = $request -> ipCosto;
             $query -> descripcion = $request -> ttaDescripcion;
             $query -> Imagen = $request -> ipImagen;
+            $query -> estado = $request -> selEstado;
             date_default_timezone_set("America/Bogota");
             $time = time();
             $query -> updated_at = date("d-m-Y H:i:s", $time);

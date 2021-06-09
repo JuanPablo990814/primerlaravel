@@ -14,7 +14,11 @@
     <link rel="shortcut icon" href="{{'img/faviconlaravel.png' }}" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-  
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/registro.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/plan.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/inscripcion.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/plantilla2.css') }}" rel="stylesheet"/>
   </head>
 <body>
 <!-- <img id="fondo" src="{{ asset('img/inicio.jpg') }}" alt=""> -->
@@ -37,6 +41,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url('/tours') }}">Tours</a>
         </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="{{ url('/contacto') }}">Contacto</a>
+        </li> -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Code
@@ -49,47 +56,54 @@
             <li><a class="dropdown-item" href="#">Otro</a></li>
           </ul>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li> -->
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn btn-light" type="submit">Search</button>
+
+
+      <?php
+        $url=url('dashboard');
+
+        if(isset($correo)){
+          echo "<a class='titulolog' href='".$url."'><strong>".$correo."</strong></a>";
+          $email="hidden";
+          $password="hidden";
+          $btnText="Cerrar Sesión";
+          $formAction=url('logout2');
+          $metodo="";
+
+        }else{
+          echo "<h6></h6>";
+          $email="email";
+          $password="password";
+          $btnText="Login";
+          $formAction=url('login');
+          $metodo="post";
+        }
+
+
+      ?>
+      <form class="d-flex" method="<?php echo $metodo?>" action="<?php echo $formAction?>">
+        @csrf
+        <input id="email" name="email" class="form-control me-2" type="<?php echo $email?>" placeholder="Email">
+        <br>
+        <input id="password" name="password" class="form-control me-2" type="<?php echo $password?>" placeholder="Password">
+        <button class="btn btn btn-light" type="submit"><?php echo $btnText?></button>
       </form>
+
+      <?php
+      if(!isset($correo)){
+        echo "<a class='btn btn btn-light btnEspacio' type='button' href=".url('register').">Registrarse</a>";
+      }
+      ?>
+      <!-- <a class="btn btn btn-light btnEspacio" type="button" href="{{ url('register') }}">Registrarse</a> -->
     </div>
   </div>
 </nav>
+<br><br>
 
-<div class="row">
-  <div class="col-2">
-    <div class="herramientas">
-    <div class="accordion-item">
-    <h2 class="accordion-header" id="headingOne">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        Planes
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <a class="nav-link" href="{{ url('/admin') }}">Alojamientos</a>
-        <a class="nav-link" href="{{ url('/adminRecorridos') }}">Recorridos</a>
-        <a class="nav-link" href="{{ url('/adminTours') }}">Tours</a>    
-      </div>
-    </div>
-    </div>
-
-    <a class="nav-link herramientas2" href="{{ url('/pedidos') }}">Pedidos</a>   
-
-    </div>
-
-  </div>
-  <div class="col-10">
-    @yield('content')
-  </div>
+<div class="container">
+@yield('content') 
 </div>
-
-
+<br>
 <footer>
   <br>
   COPYRIGHT {{ date('Y')}}
@@ -97,6 +111,13 @@
   
 </footer>
 
+<link rel="stylesheet" type="text/css" href="{{ asset('css/lightpick.css') }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ asset('js/lightpick.js') }}"></script>
+<!-- <script src="{{ asset('js/pickerPrueba.js') }}"></script> -->
+<script src="{{ asset('js/horajquery.js') }}"></script>
+<script src="{{ asset('js/interactividad.js') }}"></script>
 
 </body>
 </html>

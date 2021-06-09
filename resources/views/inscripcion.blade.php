@@ -1,4 +1,4 @@
-@extends("plantilla")
+@extends("plantilla2")
 
 @section('content')
 <?php
@@ -35,12 +35,13 @@
         if(count($time)==0){
             $time = $array;
         }
-            
+        //dd($c[0],$currentTime);
         //dd($currentDate);
         //dd($selectedDate);
         //dd($currentTime);
         //dd($time);
-             
+    
+
 ?>
 
 
@@ -49,24 +50,33 @@
     <div class="container">
         
         <h2>Inscripción - {{ $query[0] -> titulo }} en {{ $query[0] -> destino }}</h2>
+
         
+
         <br>
+        <h5 id="AdverLogueo" class="tituloblanco">Para reservar es necesario estar logueado.</h5>
         <div class="row">
-            <div class="col-sm-1" id=botones1>
-                <form>
-                    <button class="btn btn-primary" id="btnLogin">Login</button>
-                </form>
+            <div class="col-sm-1" id=botones1>  
+                <a class="btn btn-primary estilo-botones" id="btnLogin" href="{{ url('login') }}">Login</a>
             </div>
             <div class="col-sm-1">
-                <form action="{{ url ('registro') }}">
-                    <button class="btn btn-primary" id="btnRegistrase">Registrarse</button>
-                </form>
+                <!-- <form action="{{ url ('registro') }}">
+                    <button class="btn btn-primary" id="btnRegistrase" href="{{ url('register') }}">Registrarse</button>
+                </form> -->
+                <a class="btn btn-primary estilo-botones" id="btnRegistro" href="{{ url ('registro') }}">Registro</a>
             </div>
         </div>
         <br>
 
+        
+
         <form method="" action="{{ url ('/Inscripcion/Inscribiendo') }}">
             @csrf
+
+
+            <input id="iduser" name="iduser" type="hidden" value="<?php echo $iduser?>">
+
+
             <?php 
             $varplan=$query[0]-> id_tipo;
             $label="";
@@ -81,18 +91,24 @@
             }
             ?>
 
+            
+
+
+            
             <div class="form-check">    
                 <input class="form-check-input" type="<?php echo $type ?>" id="checkTransporte" name="checkTransporte" value="True">
-                <label class="form-check-label" for="checkTransporte">
+                <label id="lblTransporte" class="form-check-label" for="checkTransporte">
                 <?php echo $label?>
                 </label>
             </div>
             
             <input id="prodId" name="prodId" type="hidden" value="{{ $query[0]-> id }}">
+            <!-- input sin valor alguno en el backend -->
             <input id="costopersona" name="costopersona" type="hidden" value="{{ $query[0]-> costo_persona }}">
+
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="checkSim" name="checkSim" value="True">
-                <label class="form-check-label" for="checkSim">
+                <label id="lblSims" class="form-check-label" for="checkSim">
                     Desea incluir en su packete SIM CARDS con minutos incluidos para cada persona.
                 </label>
             </div>
@@ -101,7 +117,7 @@
 
             <div class="row">
                 <div class="col-sm-3">
-                    <label for="inpNumeroPer" class="form-label"><strong>•Personas adiccionales a incluir en el plan</strong></label>
+                    <label id="lblPersonasAdicion" for="inpNumeroPer" class="form-label"><strong>•Personas adiccionales a incluir en el plan</strong></label>
                 </div>
                 <div class="col-2">
                     <input type="number" class="form-control" id="inpNumeroPer" name="inpNumeroPer" placeholder="" value="0" min="0" max="20">
@@ -111,11 +127,11 @@
             <?php $url =  "'".url('inscripcion')."/".$query[0] -> Url."'"; ?>
             <div class="row">
                 <div class="col-sm-3">
-                    <label for="start"><strong>•Fecha de plan</strong></label>
+                    <label id="lblFecha" for="start"><strong>•Fecha de plan</strong></label>
                 </div>
                 <div class="col-2">
                     <span id="fechaSeleccionada" name="fechaSeleccionada"></span>
-                    <input type="text" id="datepicker1" name="datepicker1"/>
+                    <input type="text" id="datepicker1" name="datepicker1">
                 </div>
             </div>
             <!-- onblur="javascript_to_php(<?php //echo $url?>)" -->
@@ -135,14 +151,14 @@
             <br>
             <div class="row">
                 <div class="col-sm-3">
-                <label for="selectDate" class="form-label"><strong>•Horario</strong></label>
+                <label id="lblDate" for="selectDate" class="form-label"><strong>•Horario</strong></label>
                 </div>
                 <div class="col-2">
-                    <select class="form-select" id="selectDate" name="selectDate" required>
+                    <select class="form-select" id="selectTime" name="selectTime" required>
                         <option selected disabled value="">Choose...</option>
-                        @foreach($time as $t)
-                        <option> <?php echo $t[1]?> </option>
-                        @endforeach
+                        <!-- @foreach($time as $t)
+                        <option> <?php //echo $t[1]?> </option>
+                        @endforeach -->
                     </select>
                 </div>
             </div>
@@ -153,7 +169,7 @@
                 
                 </div>
                 <div class="col-3">
-                    <button class="btn btn-primary">Enviar Inscripción</button>
+                    <button id="btnInscripcion" class="btn btn-primary estilo-botones">Enviar Inscripción</button>
                 </div>
             </div>
         </form>

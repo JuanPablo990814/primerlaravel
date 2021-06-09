@@ -1,4 +1,4 @@
-@extends('plantilla')
+@extends('plantilla2')
 
 @section('content')
 

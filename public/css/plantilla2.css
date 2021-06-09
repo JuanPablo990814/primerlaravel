@@ -1,0 +1,19 @@
+.titulolog{
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    margin: 20px;
+    
+}
+
+.titulolog:hover{
+    color: #ff6b09;
+}
+
+.btnEspacio{
+    margin: 10px;
+}
+
+.tituloblanco{
+    color: white;
+}

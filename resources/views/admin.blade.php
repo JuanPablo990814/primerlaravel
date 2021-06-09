@@ -29,6 +29,9 @@
         <th>
             Alojamiento
         </th>
+        <th>
+            Estado
+        </th>
         <th></th>
         <th>Acciones</th>
         <th></th>
@@ -38,14 +41,15 @@
 
     
     @foreach($query AS $c)
-    <?php  $var=$c ->id.",'".$c -> destino."','".$c -> estadia."',".$c -> costo_persona.",'".$c -> descripcion."','".$c -> img."','".$c -> created_at."','".$c -> updated_at."'";?>
+    <?php  $var=$c ->id.",'".$c -> destino."','".$c -> estadia."',".$c -> costo_persona.",'".$c -> descripcion."','".$c -> img."','".$c -> created_at."','".$c -> updated_at."','".$c -> estado."'";?>
     
     <tr>
         <td id="id_alojamiento{{ $c -> id }}" name="">{{ $c -> id }}</td>
         <td id="ubi_alojamiento{{ $c -> id }}" name="">{{ $c -> destino }}</td>
-        <td id="ubi_alojamiento{{ $c -> id }}" name="">{{ $c -> estadia }}</td>
+        <td id="est_alojamiento{{ $c -> id }}" name="">{{ $c -> estadia }}</td>
+        <td id="estado_alojamiento{{ $c -> id }}" name="">{{ $c -> estado }}</td>
         <!---la ubicacion se pasa de php a javascript con comillas por que es una variable tipo texto-->
-        <!-- <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="seleccProduct(<?php echo $c -> id?>,'<?php echo $c -> destino?>','<?php echo $c -> estadia?>',<?php echo $c -> costo_persona?>,'<?php echo $c -> descripcion?>','<?php echo $c -> img?>')">Ver</a></td> -->
+        <!-- <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="seleccProduct(<?php echo $c -> id?>,'<?php echo $c -> destino?>','<?php echo $c -> estadia?>',<?php echo $c -> costo_persona?>,'<?php echo $c -> descripcion?>','<?php echo $c -> img?>','<?php echo $c -> estado?>')">Ver</a></td> -->
         <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="seleccProduct(<?php echo $var?>)">Ver</a></td>
         <td><a href="" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modalModificar" onclick="editProdut(<?php echo $var?>)">Actualizar</a></td>
         <td><a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalBorrar" onclick="seleccBorrar(<?php echo $c -> id?>)">Eliminar</a></td>
@@ -96,6 +100,10 @@
             <tr name="modAlojamiento" style="display:contents">
               <th><h5><strong>Alojamiento</strong></h5></th>
               <td><h5 id="txtAlojamiento" name="txtAlojamiento"></h5></td>
+            </tr>
+            <tr>
+              <th><h5><strong>Estado</strong></h5></th>
+              <td><h5 id="txtEstado" name="txtEstado"></h5></td>
             </tr>
             <tr>
               <th><h5><strong>Costo</strong></h5></th>
@@ -176,8 +184,8 @@
           <div class="mb-1 col-12">
             <label for="Ubicacion" class="form-label"><strong>Ubicacion</strong></label>
             <!-- <input type="text" class="form-control" id="ipUbicacion1" name="ipUbicacion1" placeholder="Ingrese el nombre de la ubicación"> -->
-            <select id ="selDestino1" name="selDestino1" class="form-select" aria-label="Default select example">
-              <option selected>Open this select menu</option>
+            <select id ="selDestino1" name="selDestino1" class="form-select" aria-label="Default select example" required>
+              <option value="" selected>Open this select menu</option>
               <option value="1">La Pintada</option>
               <option value="2">Amaga</option>
               <option value="3">Jardín</option>
@@ -187,22 +195,30 @@
           </div>
           <div class="mb-1 col-12">
             <label for="Alojamiento" class="form-label"><strong>Alojamiento</strong></label>
-            <input type="text" class="form-control" id="ipAlojamiento1" name="ipAlojamiento1" placeholder="Ingrese el nombre del alojamiento">           
+            <input type="text" class="form-control" id="ipAlojamiento1" name="ipAlojamiento1" placeholder="Ingrese el nombre del alojamiento" required>           
           </div>
           <div class="mb-1 col-12">
             <label for="Costo" class="form-label"><strong>Costo</strong></label><label for="Costo" class="obligatorio form-label">*</label>
-            <input type="number" class="form-control" id="ipCosto1" name="ipCosto1" placeholder="Ingrese el costo del plan">           
+            <input type="number" class="form-control" id="ipCosto1" name="ipCosto1" placeholder="Ingrese el costo del plan" required>           
           </div>
           <div class="mb-2 col-12">
             <label for="descripcion" class="form-label"><strong>Descripción</strong></label>
-            <textarea class="form-control" id="ttaDescripcion1" name="ttaDescripcion1" rows="3" placeholder="Ingrese la descripción del plan"></textarea>
+            <textarea class="form-control" id="ttaDescripcion1" name="ttaDescripcion1" rows="3" placeholder="Ingrese la descripción del plan" required></textarea>
           </div>
           <div class="mb-1 col-12">
             <label for="imagen" class="form-label"><strong>Imagen</strong></label>
-            <input type="text" class="form-control" id="ipImagen1" name="ipImagen1" placeholder="Ingrese la imagen 'por ahora'" value="https://loremflickr.com/320/240/travel">           
+            <input type="text" class="form-control" id="ipImagen1" name="ipImagen1" placeholder="Ingrese la imagen 'por ahora'" value="https://loremflickr.com/320/240/travel" required>           
           </div>
           <div class="mb-1 col-12">
-            <input type="file" class="form-control" id="_file_" name="archivo" placeholder="" value="https://loremflickr.com/320/240/travel">      
+            <input type="file" class="form-control" id="_file_" name="archivo" placeholder="" value="https://loremflickr.com/320/240/travel" required>      
+          </div>
+          <div class="mb-1 col-12">
+            <label for="selEstado1" class="form-label"><strong>Ubicacion</strong></label>
+            <select id ="selEstado1" name="selEstado1" class="form-select" aria-label="Default select example" required>
+              <option selected>Open this select menu</option>
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
           </div>
 
           <br>
@@ -239,8 +255,8 @@
           </div>
           <div class="mb-1 col-12">
             <label for="Ubicacion" class="form-label"><strong>Ubicacion</strong></label>
-            <select id ="selDestino" name="selDestino" class="form-select" aria-label="Default select example">
-              <option selected>Open this select menu</option>
+            <select id ="selDestino" name="selDestino" class="form-select" aria-label="Default select example" required>
+              <option value="" selected>Open this select menu</option>
               <option value="1">La Pintada</option>
               <option value="2">Amaga</option>
               <option value="3">Jardín</option>
@@ -251,19 +267,27 @@
           </div>
           <div class="mb-1 col-12" name="modAlojamientotxt" style="display:contents">
             <label for="Alojamiento" class="form-label"><strong>Alojamiento</strong></label>
-            <input type="text" class="form-control" id="ipAlojamiento" name="ipAlojamiento" placeholder="Ingrese el nombre del alojamiento">           
+            <input type="text" class="form-control" id="ipAlojamiento" name="ipAlojamiento" placeholder="Ingrese el nombre del alojamiento" required>           
           </div>
           <div class="mb-1 col-12">
             <label for="Costo" class="form-label"><strong>Costo</strong></label>
-            <input type="number" class="form-control" id="ipCosto" name="ipCosto" placeholder="Ingrese el costo del plan">           
+            <input type="number" class="form-control" id="ipCosto" name="ipCosto" placeholder="Ingrese el costo del plan" required>           
           </div>
           <div class="mb-2 col-12">
             <label for="descripcion" class="form-label"><strong>Descripción</strong></label>
-            <textarea class="form-control" id="ttaDescripcion" name="ttaDescripcion" rows="3" placeholder="Ingrese la descripción del plan"></textarea>
+            <textarea class="form-control" id="ttaDescripcion" name="ttaDescripcion" rows="3" placeholder="Ingrese la descripción del plan" required></textarea>
           </div>
           <div class="mb-1 col-12">
             <label for="imagen" class="form-label"><strong>Imagen</strong></label>
-            <input type="text" class="form-control" id="ipImagen" name="ipImagen" placeholder="Ingrese la imagen 'por ahora'">           
+            <input type="text" class="form-control" id="ipImagen" name="ipImagen" placeholder="Ingrese la imagen 'por ahora'" required>           
+          </div>
+          <div class="mb-1 col-12">
+            <label for="selEstado" class="form-label"><strong>Ubicacion</strong></label>
+            <select id ="selEstado" name="selEstado" class="form-select" aria-label="Default select example" required>
+              <option value="" selected>Open this select menu</option>
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
           </div>
           <br>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

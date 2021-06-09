@@ -17,63 +17,55 @@
 <table class="table table-striped border">
     <tr class="table-secondary">
         <th>
-            Fecha de Reserva
+            Id
         </th>
         <th>
-            Hora de Reserva
+            Id Factura
         </th>
         <th>
-            Nombre del Cliente
+            Email del Cliente
         </th>
         <th>
-            Num Contacto del Cliente
+            Producto
         </th>
         <th>
-            Titulo
+            Num. Personas
         </th>
         <th>
-            Fecha de Creación
+            Valor 1 persona
         </th>
         <th>
-            id
+            Valor Total
         </th>
         <th>
-            Acciones
-        </th>
-        <th>
-            
+            Eliminar
         </th>
     </tr>
     @foreach($query AS $c)
     <tr>
         <td>
-            {{ $c -> fechaReserva }}
-        </td>
-        <td>
-            {{ $c -> horaReserva }}
-        </td>
-        <td>
-            {{ $c -> name }}
-        </td>
-        <td>
-            {{ $c -> numero }}
-        </td>
-        <td>
-            {{ $c -> titulo }}
-        </td>
-        <td>
-            {{ $c -> created_at }}
-        </td>
-        <td>
             {{ $c -> id }}
         </td>
         <td>
-            <form action="{{url('items')}}/{{$c -> id}}">
-                <button class="btn btn-primary" >Ver</button>
-            </form>
+            {{ $c -> factura_id }}
         </td>
         <td>
-            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalBorrar" onclick="seleccBorrarReserva(<?php echo $c -> id?>)">Eliminar</a>
+            {{ $c -> email }}
+        </td>
+        <td>
+            {{ $c -> producto }}
+        </td>
+        <td>
+            {{ $c -> numero_de_personas_adicionales }}
+        </td>
+        <td>
+            {{ $c -> valor_una_persona }}
+        </td>
+        <td>
+            {{ $c -> total }}
+        </td>
+        <td>
+            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalBorrar" onclick=seleccBorrarItem(<?php echo $c -> id?>)">Eliminar</a>
         </td>
     
     </tr>
@@ -92,14 +84,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p name=lblAdvertencia>¿Esta seguro de borrar este registro con id:</p>
+        <p name=lblAdvertencia>¿Esta seguro de borrar este registro con id:?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         
-        <form name=formBorrar method="" action="{{ url ('BorrarRegistro') }}">
+        <form name=formBorrar method="" action="{{ url ('/eliminarPedido')}}/">
           @csrf
-          <input id="idfactura" name="idfactura" type="hidden" value="">
+          @method('DELETE')
           <button type="submit" class="btn btn-danger">Borrar Registro</button>
         </form>
         
@@ -108,5 +100,8 @@
   </div>
 </div>
 <!--endmodal-->
+
+
+<!--  -->
 
 @endsection

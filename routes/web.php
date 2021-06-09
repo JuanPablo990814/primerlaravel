@@ -5,6 +5,7 @@ use App\Http\Controllers\Datos\ControladorArreglo;
 use App\Http\Controllers\Ruta\Nombrecontroller;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,7 +85,7 @@ Route::get('/noadTo', function () {
 });
 
 //-------------------------------
-Route::get('/login', function () {
+Route::get('/login2', function () {
     return view('login');
 });
 //--------------------------------
@@ -312,6 +313,44 @@ Route::get("/horatest",function(){
 // //guardando en base de datos el registro
 Route::get('/Inscripcion/Inscribiendo', 'App\Http\Controllers\Otros\OtrasFuncionesController@InscripcionPlan');
 
-Route::get('/pedidos', function () {
-    return view('pedidos');
+Route::get('/pedidos', 'App\Http\Controllers\Otros\OtrasFuncionesController@pedidos');
+
+//Esto va en la parte superior de este formato
+//pero para recordarme futuramente lo dejo aqui
+use App\Http\Controllers\Admin\LoginController;
+use App\Models\DB\Usuarios;
+//Route::get('logout', tambien se puede sin /
+Route::get('/logout', [LoginController::class,'logout']);
+
+Route::post('login', [LoginController::class,'login']);
+Route::get('login', [LoginController::class,'loginForm']);
+
+Route::post('register', [LoginController::class,'register']);
+Route::get('register', [LoginController::class,'registerForm']);
+
+Route::group(['middleware'=>'auth'],function(){
+
+    Route::post('upload', [LoginController::class,'uploadFile']);
+    Route::get('upload', [LoginController::class,'uploadForm']);
+
+    Route::get('dashboard', [LoginController::class,'dashboardForm']);
 });
+
+Route::get('/sesion', function () {
+    
+    //dd(Auth::user());
+    dd(Auth::user()->name);
+});
+
+Route::get('/logout2', [LoginController::class,'logout2']);
+
+Route::get('/Buscar-Alojamientos', 'App\Http\Controllers\Otros\OtrasFuncionesController@BusquedaAlojamientos');
+Route::get('/Buscar-Recorridos', 'App\Http\Controllers\Otros\OtrasFuncionesController@BusquedaRecorridos');
+Route::get('/Buscar-Tours', 'App\Http\Controllers\Otros\OtrasFuncionesController@BusquedaTours');
+Route::get('/BorrarRegistro', 'App\Http\Controllers\Otros\OtrasFuncionesController@BorrarRegistro');
+
+Route::get('/items/{id}','App\Http\Controllers\Otros\OtrasFuncionesController@itemsFactura'
+)-> where (['id'=>'[A-Za-z0-9-&?=]+']);
+
+Route::get('/eliminarPedido/{id}','App\Http\Controllers\Otros\OtrasFuncionesController@eliminarPedido'
+)-> where (['id'=>'[A-Za-z0-9-&?=]+']);

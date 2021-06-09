@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DB\Destinos;
 use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\Auth;
 // use Illumminate\Support\Facades\DB;
 // use App\Models\models\destinos;
 
@@ -18,8 +19,6 @@ class alojamientosController extends Controller
      */
     public function index()
     {
-
-        
         // try{
         //     $data['query']=destinos::get();
         //     // var_dump($data);
@@ -28,6 +27,7 @@ class alojamientosController extends Controller
         // catch(\Exception $ex){
         //     return view("withoutplanes");
         // }
+        
         try{
             $data['filtro'] =0;
             $data['query'] = FacadesDB::table('tblPlanes')
@@ -39,9 +39,18 @@ class alojamientosController extends Controller
             'tblPlanes.updated_at')
             ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
-            ->where('tblTipoPlan.nombre','=','Alojamientos')
+            ->where([
+                ['tblTipoPlan.nombre','=','Alojamientos'],
+                ['tblPlanes.estado','=','Activo']
+            ])
             ->get();
-            // dd($query);
+
+            if(isset(Auth::user()->email)){
+                $data['correo']=Auth::user()->email;
+            }
+            
+            $data['busqueda']="";
+
             return view("alojamientos",$data);
         }
         catch(\Exception $ex){

@@ -24,7 +24,7 @@ class adminToursController extends Controller
         'tblPlanes.url','tblPlanes.descripcion as descripcion',
         'tblPlanes.Imagen as img','tblPlanes.costo_persona as costo_persona',
         'tblPlanes.created_at',
-        'tblPlanes.updated_at')
+        'tblPlanes.updated_at','tblPlanes.estado')
         ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
         ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
         ->where('tblTipoPlan.nombre','=','Tours')
@@ -67,6 +67,7 @@ class adminToursController extends Controller
             $query -> costo_persona = $request -> ipCosto1;
             $query -> descripcion = $request -> ttaDescripcion1;
             $query -> Imagen = $request -> ipImagen1;
+            $query -> estado = $request -> selEstado1;
             date_default_timezone_set("America/Bogota");
             $time = time();
             $query -> updated_at = date("d-m-Y H:i:s", $time);
@@ -121,15 +122,16 @@ class adminToursController extends Controller
             $query -> costo_persona = $request -> ipCosto;
             $query -> descripcion = $request -> ttaDescripcion;
             $query -> Imagen = $request -> ipImagen;
+            $query -> estado = $request -> selEstado;
             date_default_timezone_set("America/Bogota");
             $time = time();
             $query -> updated_at = date("d-m-Y H:i:s", $time);
             // dd($query);
             $query -> save();
             // return "actualiza su registro";
-            return redirect('/adminTours')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning']);
+            return redirect('/adminTours')->with(['msg' => 'Registro modificado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
         }catch(\Exception $ex){
-            return redirect("/adminTours")->with(['msg'=>'Error al modificar registro','class'=>'alert-danger ']);
+            return redirect("/adminTours")->with(['msg'=>'Error al modificar registro','class'=>'alert-danger alert-dismissible fade show']);
         }
     }
 

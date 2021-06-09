@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 // use App\Models\models\tblTours;
 use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\Auth;
+
 
 class toursController extends Controller
 {
@@ -28,11 +30,22 @@ class toursController extends Controller
             'tblPlanes.updated_at')
             ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
-            ->where('tblTipoPlan.nombre','=','Tours')
+            ->where([
+                ['tblTipoPlan.nombre','=','Tours'],
+                ['tblPlanes.estado','=','Activo']
+            ])
             ->get();
+
+            if(isset(Auth::user()->email)){
+                $data['correo']=Auth::user()->email;
+            }
+
+            $data['busqueda']="";
+
             return view("tours",$data);
         }
         catch(\Exception $ex){
+            
             return view("withoutplanes");
         }
     }

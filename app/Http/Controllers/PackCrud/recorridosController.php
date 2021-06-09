@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 // use App\Models\models\destinos;
 use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\Auth;
 
 class recorridosController extends Controller
 {
@@ -35,9 +36,19 @@ class recorridosController extends Controller
             'tblPlanes.updated_at')
             ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
-            ->where('tblTipoPlan.nombre','=','Recorridos')
+            ->where([
+                
+                ['tblTipoPlan.nombre','=','Recorridos'],
+                ['tblPlanes.estado','=','Activo']
+            ])
             ->get();
             // dd($data);
+            if(isset(Auth::user()->email)){
+                $data['correo']=Auth::user()->email;
+            }
+
+            $data['busqueda']="";
+
             return view("recorridos",$data);
         }
         catch(\Exception $ex){
