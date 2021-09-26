@@ -65,12 +65,20 @@
             {{ $c -> total }}
         </td>
         <td>
-            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalBorrar" onclick=seleccBorrarItem(<?php echo $c -> id?>)">Eliminar</a>
+        <?php 
+        $url=url('eliminarPedido');
+        $var=$c ->id.",'".$url."'";
+        
+        
+        ?>
+            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalBorrar" onclick="seleccBorrarItem(<?php echo $var?>)">Eliminar</a>
         </td>
     
     </tr>
     @endforeach
 </table>
+
+<h1 class="tituloblanco">Valor Total: {{$total}}</h1>
 
 </div>
 </div>

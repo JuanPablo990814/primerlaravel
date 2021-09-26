@@ -94,18 +94,19 @@ Route::get('/login2', function () {
 Route::get('/admin', function () {
     return view('admin');
 });
-Route::resource('/admin', 'App\Http\Controllers\Admin\adminController');
+
+Route::resource('/admin', 'App\Http\Controllers\Admin\adminController')->middleware('rol');
 // Route::get('/admin/{url}', 'App\Http\Controllers\Admin\adminController') -> where (['url'=>'[0-9]+']);
 
 Route::get('/adminRecorridos', function () {
     return view('adminRecorridos');
 });
-Route::resource('/adminRecorridos', 'App\Http\Controllers\Admin\adminRecoController');
+Route::resource('/adminRecorridos', 'App\Http\Controllers\Admin\adminRecoController')->middleware('rol');
 
 Route::get('/adminTours', function () {
     return view('adminTours');
 });
-Route::resource('/adminTours', 'App\Http\Controllers\Admin\adminToursController');
+Route::resource('/adminTours', 'App\Http\Controllers\Admin\adminToursController')->middleware('rol');
 
 //FILTROS
 Route::get('/filtro', 'App\Http\Controllers\Otros\OtrasFuncionesController@filtrarAlojamientos');
@@ -212,21 +213,21 @@ Route::get("/pruebasarrays",function(){
 
 
 Route::get("/conexionprueba",function(){
-    //$serverName = "(LocalDB)\MSSQLLocalDB"; //serverName\instanceName
+    $serverName = "(LocalDB)\MSSQLLocalDB"; //serverName\instanceName
 
-    // Puesto que no se han especificado UID ni PWD en el array  $connectionInfo,
-    // // La conexión se intentará utilizando la autenticación Windows.
-    //$connectionInfo = array( "Database"=>"DB_Viajes");
-    // //sqlsrv_connect() NO ESTA MALO EL CODIGO si ejecuta solo que aparece como error en el visual y sqlsrv_errors() igual
-    //$conn = sqlsrv_connect( $serverName, $connectionInfo);
+    //Puesto que no se han especificado UID ni PWD en el array  $connectionInfo,
+    // La conexión se intentará utilizando la autenticación Windows.
+    $connectionInfo = array( "Database"=>"DB_Viajes");
+    //sqlsrv_connect() NO ESTA MALO EL CODIGO si ejecuta solo que aparece como error en el visual y sqlsrv_errors() igual
+    // $conn = sqlsrv_connect( $serverName, $connectionInfo);
     
-    //if( $conn ) {
+    // if( $conn ) {
     //      echo "Conexión establecida.<br />";
-    //}else{
+    // }else{
     //      echo "Conexión no se pudo establecer.<br />";
     //      die( print_r( sqlsrv_errors(), true));
-    //}
-    //return phpinfo();
+    // }
+    // return phpinfo();
 });
 
 //Route::get('/query', [QueryController::class, 'destinos']);
@@ -313,33 +314,43 @@ Route::get("/horatest",function(){
 // //guardando en base de datos el registro
 Route::get('/Inscripcion/Inscribiendo', 'App\Http\Controllers\Otros\OtrasFuncionesController@InscripcionPlan');
 
-Route::get('/pedidos', 'App\Http\Controllers\Otros\OtrasFuncionesController@pedidos');
+Route::get('/pedidos', 'App\Http\Controllers\Otros\OtrasFuncionesController@pedidos')->middleware('rol');
 
 //Esto va en la parte superior de este formato
 //pero para recordarme futuramente lo dejo aqui
 use App\Http\Controllers\Admin\LoginController;
 use App\Models\DB\Usuarios;
+use Illuminate\Auth\Events\Verified;
+
 //Route::get('logout', tambien se puede sin /
 Route::get('/logout', [LoginController::class,'logout']);
 
 Route::post('login', [LoginController::class,'login']);
-Route::get('login', [LoginController::class,'loginForm']);
+//->name('login'); crea el nombre login como ruta para poder utilizarlo en el middleware ejemplo: return route(login);
+Route::get('login', [LoginController::class,'loginForm'])->name('login');;
 
 Route::post('register', [LoginController::class,'register']);
 Route::get('register', [LoginController::class,'registerForm']);
 
-Route::group(['middleware'=>'auth'],function(){
+Route::group(['middleware'=>'rol'],function(){
 
     Route::post('upload', [LoginController::class,'uploadFile']);
     Route::get('upload', [LoginController::class,'uploadForm']);
+    Route::get("uploadJson",'App\Http\Controllers\Otros\OtrasFuncionesController@jsonForm');
+    Route::post('uploadFileJson', [LoginController::class,'uploadFileJson']);
+});
+
+
+Route::group(['middleware'=>'auth'],function(){
 
     Route::get('dashboard', [LoginController::class,'dashboardForm']);
+
 });
 
 Route::get('/sesion', function () {
     
     //dd(Auth::user());
-    dd(Auth::user()->name);
+    dd(Auth::user()->name,Auth::user()->email,Auth::user()->numero);
 });
 
 Route::get('/logout2', [LoginController::class,'logout2']);
@@ -353,4 +364,23 @@ Route::get('/items/{id}','App\Http\Controllers\Otros\OtrasFuncionesController@it
 )-> where (['id'=>'[A-Za-z0-9-&?=]+']);
 
 Route::get('/eliminarPedido/{id}','App\Http\Controllers\Otros\OtrasFuncionesController@eliminarPedido'
-)-> where (['id'=>'[A-Za-z0-9-&?=]+']);
+)-> where (['id'=>'[0-9]+']);
+
+
+Route::get('/pruebaRoute',function(){
+return route('login');
+});
+
+Route::get('/cambiarEstado/{id}','App\Http\Controllers\Otros\OtrasFuncionesController@cambiarEstado')-> where (['id'=>'[0-9]+']);
+
+Route::get('/rutaImg', function () {
+    
+    // dd(public_path('img\\0Ox7A6ojCdvLUS1-bugha.jpg'));
+    $url=public_path('img\\upload\\0Ox7A6ojCdvLUS1-bugha.jpg');
+    return ($url);
+});
+
+
+
+
+Route::get("/jsonImg",'App\Http\Controllers\Otros\OtrasFuncionesController@jsonImg');

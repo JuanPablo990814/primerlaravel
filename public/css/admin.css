@@ -209,3 +209,7 @@ Footer{
     border-color: #1b0d37;
     box-shadow:0 0 0 0.25rem rgba(53, 0, 165, 0.3) !important ;
 }
+
+.tituloblanco{
+    color: white;
+}

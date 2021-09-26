@@ -54,14 +54,25 @@ function editProdut(id,destino,alojamiento,costo,descripcion,imagen,fcreado,fupd
 
 }
 
-function seleccBorrar(id,urlActual){
-    console.log("|"+id +"|"+urlActual +"|");
-    url=urlActual+"/"+id;
+function seleccBorrar(id){
+    console.log("|"+id +"|");
+    url=window.location;
+    url=url["href"]+"/"+id;
     advertencia="¿Esta seguro de borrar este registro con id: "+ id+"?";
     console.log("|"+advertencia +"|");
     document.getElementsByName("formBorrar")[0].action=url;
-    document.getElementsByName("lblAdvertencia")[0].textContent=advertencia; 
+    document.getElementsByName("lblAdvertencia")[0].textContent=advertencia;
+
 }
+
+// function seleccBorrar(id,urlActual){
+//     console.log("|"+id +"|"+urlActual +"|");
+//     url=urlActual+"/"+id;
+//     advertencia="¿Esta seguro de borrar este registro con id: "+ id+"?";
+//     console.log("|"+advertencia +"|");
+//     document.getElementsByName("formBorrar")[0].action=url;
+//     document.getElementsByName("lblAdvertencia")[0].textContent=advertencia; 
+// }
 //Alojamientos
 
 //recorridos
@@ -107,10 +118,12 @@ function seleccBorrarReserva(id){
     document.getElementsByName("idfactura")[0].value=id; 
 }
 
-function seleccBorrarItem(id){
+function seleccBorrarItem(id,url){
+    console.log('Hola: '+id);
     // url=window.location;
-    // url=url["href"]+"/"+id;
-    advertencia="¿Esta seguro de borrar este registro con id: "+ id+"?";
+    url=url+"/"+id;
+    console.log('Hola2: '+url);
+    advertencia="¿Esta seguro de borrar este registro con id: "+id+"?";
     // console.log("|"+advertencia +"|");
     // document.getElementsByName("formBorrar")[0].action=url;
     document.getElementsByName("lblAdvertencia")[0].textContent=advertencia;

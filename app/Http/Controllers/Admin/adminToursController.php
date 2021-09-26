@@ -15,6 +15,10 @@ class adminToursController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private static function randomToken($start=5,$end=60){
+        return substr(str_shuffle("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"),$start,$end);
+    }
+
     public function index()
     {
         // $data['qTours']=tblTours::get();
@@ -57,16 +61,27 @@ class adminToursController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        //try{
             $query = new Planes();
             $query -> id_destinos = $request -> selDestino1;
             //1 por ser alojamiento
             $query -> id_tipo =3;
             $query -> titulo = $request -> ipAlojamiento1;
-            $query -> url = $this -> getUrl($request -> ipAlojamiento1);
+            $query -> url = $this -> randomToken(5,15).$this -> getUrl($request -> ipAlojamiento1);
             $query -> costo_persona = $request -> ipCosto1;
             $query -> descripcion = $request -> ttaDescripcion1;
-            $query -> Imagen = $request -> ipImagen1;
+            if($request->cbUrl1=="True"){
+                $query -> Imagen = $request -> ipImagen1;
+            }else{
+                $file= $request -> ipFile1;
+                $imgs="";
+                $token = $this -> randomToken(5,15);
+                $imgName = $token.'-'.$file->getClientOriginalName();
+                //variable creada en .env UPLOADFILE_PATH
+                $file->move(env('UPLOADFILE_PATH'),$imgName);
+                $imgs.="http://".$_SERVER["HTTP_HOST"]."/img/upload/".$imgName;
+                $query -> Imagen = $imgs;
+            }
             $query -> estado = $request -> selEstado1;
             date_default_timezone_set("America/Bogota");
             $time = time();
@@ -75,9 +90,9 @@ class adminToursController extends Controller
 
             return redirect("/adminTours")->with(['msg'=>'Registro creado correctamente','class'=>'alert-success ']);
 
-        }catch(\Exception $ex){
+        //}catch(\Exception $ex){
             return redirect("/adminTours")->with(['msg'=>'Error al crear registro','class'=>'alert-danger ']);
-        }
+        //}
         
     }
 
@@ -118,10 +133,22 @@ class adminToursController extends Controller
             //2 por que es tipo recorridos
             $query -> id_tipo = 3;
             $query -> titulo = $request -> ipAlojamiento;
-            $query -> url = $this -> getUrl($request -> ipAlojamiento);
+            $query -> url = $this -> randomToken(5,15).$this -> getUrl($request -> ipAlojamiento);
             $query -> costo_persona = $request -> ipCosto;
             $query -> descripcion = $request -> ttaDescripcion;
-            $query -> Imagen = $request -> ipImagen;
+            if($request->cbUrl=="True"){
+                $query -> Imagen = $request -> ipImagen;
+            }else{
+                $file= $request -> ipFile;
+                $imgs="";
+                $token = $this -> randomToken(5,15);
+                //no olvidar este elemento en el form:  enctype="multipart/form-data"
+                $imgName = $token.'-'.$file->getClientOriginalName();
+                //variable creada en .env UPLOADFILE_PATH
+                $file->move(env('UPLOADFILE_PATH'),$imgName);
+                $imgs.="http://".$_SERVER["HTTP_HOST"]."/img/upload/".$imgName;
+                $query -> Imagen = $imgs;
+            }
             $query -> estado = $request -> selEstado;
             date_default_timezone_set("America/Bogota");
             $time = time();

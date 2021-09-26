@@ -38,6 +38,9 @@
             id
         </th>
         <th>
+            Estado Actual
+        </th>
+        <th>
             Acciones
         </th>
         <th>
@@ -66,6 +69,21 @@
         </td>
         <td>
             {{ $c -> id }}
+        </td>
+        <td>
+            <form action="{{url('cambiarEstado')}}/{{ $c -> id }}">
+                <!-- No es necesario crear el input hidden ya que con el metodo findorfail ya obtengo los datos de esa id -->
+                <!-- <input id="{{ $c -> id }}" name="{{ $c -> id }}" type="hidden" value="<?php //echo $c -> estado_fac?>"> -->
+                <?php 
+                    if($c -> estado_fac=='Reservado Actualmente'){
+                        $estiloBoton='estilo-botones';
+                    }else{
+                        $estiloBoton='btn-dark'; 
+                    }
+                ?>
+                <button type="submit" class="btn {{$estiloBoton}}">{{ $c-> estado_fac }}</button>
+                
+            </form>
         </td>
         <td>
             <form action="{{url('items')}}/{{$c -> id}}">

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Facade;
 use Monolog\Handler\IFTTTHandler;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\UrlGenerator;
 
 class OtrasFuncionesController extends Controller
 {
@@ -36,11 +37,13 @@ class OtrasFuncionesController extends Controller
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
             ->where([
                 ['TblTipoPlan.nombre','=','Alojamientos'],
-                ['tblPlanes.costo_persona','<=', $request->filtrodinero]
+                ['tblPlanes.costo_persona','<=', $request->filtrodinero],
+                ['tblPlanes.estado','=','Activo']
                 ]) 
             ->get();
         // dd($data);
         $data['filtro']=$request ->filtrodinero;
+        $data['busqueda']=$request->inpSearch;
         return view("alojamientos",$data);
     }
 
@@ -57,12 +60,13 @@ class OtrasFuncionesController extends Controller
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
             ->where([
                 ['TblTipoPlan.nombre','=','Recorridos'],
-                ['tblPlanes.costo_persona','<=', $request->filtrodinero]
+                ['tblPlanes.costo_persona','<=', $request->filtrodinero],
+                ['tblPlanes.estado','=','Activo']
                 ]) 
             ->get();
         // dd($data);
         $data['filtro']=$request ->filtrodinero;
-        
+        $data['busqueda']=$request->inpSearch;
         return view("recorridos",$data);
     }
 
@@ -79,11 +83,13 @@ class OtrasFuncionesController extends Controller
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
             ->where([
                 ['TblTipoPlan.nombre','=','Tours'],
-                ['tblPlanes.costo_persona','<=', $request->filtrodinero]
+                ['tblPlanes.costo_persona','<=', $request->filtrodinero],
+                ['tblPlanes.estado','=','Activo']
                 ]) 
             ->get();
         // dd($data);
         $data['filtro']=$request ->filtrodinero;
+        $data['busqueda']=$request->inpSearch;
         return view("tours",$data);
     }
 
@@ -194,6 +200,7 @@ class OtrasFuncionesController extends Controller
             }
             $query -> fechaReserva = $request -> datepicker1;
             $query -> horaReserva = $request -> selectTime;
+            $query -> estado_fac = 'Reservado Actualmente';
             $query -> updated_at = date("d-m-Y H:i:s", $time);
             $checkSim = $request -> checkSim;
             $checkTransporte = $request -> checkTransporte;
@@ -269,10 +276,13 @@ class OtrasFuncionesController extends Controller
         $data['query']=FacadesDB::table('users')
         ->select('tblFactura.fechaReserva','tblFactura.horaReserva',
         'users.name','users.numero','tblPlanes.titulo','tblFactura.created_at',
-        'tblFactura.id')
+        'tblFactura.id','tblFactura.estado_fac')
         ->join('tblFactura','users.id','=','tblFactura.id_user')
         ->join('tblPlanes','tblFactura.id_plan','=','tblPlanes.id')
+        ->orderBy('tblFactura.fechaReserva')
+        ->orderBy('tblFactura.horaReserva')
         ->get();
+        
 
         //dd($data);
 
@@ -481,21 +491,83 @@ class OtrasFuncionesController extends Controller
         }
 
         $data['total']=$total;
-        
+        // dd($data);
 
         return view('items',$data);
 
     }
 
     public function eliminarPedido($id){
+        //use Illuminate\Routing\UrlGenerator
+        $url=url()->previous();
         try{
-            $data=Planes::find($id);
-            $data-> delete();
-            return redirect(redirect()->getUrlGenerator()->previous())->with(['msg' => 'Registro eliminado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
+            $data=ItemsFactura::find($id);
+            $data->delete();        
+            // dd($url);
+            return redirect($url)->with(['msg' => 'Registro eliminado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
         }
         catch (\Exception $ex){
-            return redirect(redirect()->getUrlGenerator()->previous())->with(['msg' => 'El Registro no se pudo eliminar', 'class' => 'alert-danger alert-dismissible fade show']);
+            return redirect($url)->with(['msg' => 'El Registro no se pudo eliminar', 'class' => 'alert-danger alert-dismissible fade show']);
         }
     }
+
+    public function cambiarEstado($id){
+        $query=Factura::find($id);
+        if($query->estado_fac=='Reservado Actualmente'){
+            $query->estado_fac='Reserva Finalizada';
+        }elseif($query->estado_fac=='Reserva Finalizada'){
+            $query->estado_fac='Reservado Actualmente';
+        }
+        $query -> save();
+
+        return redirect('/pedidos');
+        // ->with(['msg' => 'Estado cambiado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
+    }
+
+    public function jsonForm(){
+        $data['query']=FacadesDB::table('users')
+        ->select('tblFactura.fechaReserva','tblFactura.horaReserva',
+        'users.name','users.numero','tblPlanes.titulo','tblFactura.created_at',
+        'tblFactura.id')
+        ->join('tblFactura','users.id','=','tblFactura.id_user')
+        ->join('tblPlanes','tblFactura.id_plan','=','tblPlanes.id')
+        ->where('users.id',"=",Auth::user()->id)
+        ->get();
+
+        // dd(Auth::user());
+
+        if(isset(Auth::user()->email)){
+            $data['correo']=Auth::user()->email;
+        }
+
+        return view('uploadJson',$data);
+    }
+
+    public function jsonImg(){
+        $data['query']=FacadesDB::table('users')
+        ->select('tblFactura.fechaReserva','tblFactura.horaReserva',
+        'users.name','users.numero','tblPlanes.titulo','tblFactura.created_at',
+        'tblFactura.id')
+        ->join('tblFactura','users.id','=','tblFactura.id_user')
+        ->join('tblPlanes','tblFactura.id_plan','=','tblPlanes.id')
+        ->where('users.id',"=",Auth::user()->id)
+        ->get();
+
+        // dd(Auth::user());
+
+        if(isset(Auth::user()->email)){
+            $data['correo']=Auth::user()->email;
+        }
+
+
+        ######################json decode###################################
+        $data['planes']=Planes::find(1);
+        $json=$data['planes']->Imagen;
+        $data['json']=json_decode($json);
+        // dd($data['json']->photos[0]);
+        return view('jsonImg',$data);
+        ########################################################################
+    }
+
 
 }

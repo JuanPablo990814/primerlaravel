@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viajes | Admin</title>
+    <title>Viajes | Usuarios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
@@ -53,8 +53,21 @@
             <li><a class="dropdown-item" href="{{ url('/usandoarray') }}">Forma2: Usando un Array (Recorridos)</a></li>
             <li><a class="dropdown-item" href="{{ url('/usandodb') }}">Forma3: Usando Base de datos (Tours)</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Otro</a></li>
+            <li><a class="dropdown-item" href="{{ url('/upload') }}">Subir Archivos</a></li>
+            <li><a class="dropdown-item" href="{{ url('/sesion') }}">Sesiones</a></li>
+            <li><a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a></li>
+            <li><a class="dropdown-item" href="{{ url('/horatest') }}">Hora Test</a></li>
+            <li><a class="dropdown-item" href="{{ url('/conexionprueba') }}">Test SQL Server ¡Codigo Comentado!</a></li>
+            <li><a class="dropdown-item" href="{{ url('/alfanumerico/12juan') }}">Filtros Url: prueba con el 12juan</a></li>
+            <li><a class="dropdown-item" href="{{ url('/numerico/12') }}">Filtros Url: prueba con el 12</a></li>
+            <li><a class="dropdown-item" href="{{ url('/ejercicios') }}">Ejercicios de Aprendizaje Iniciales</a></li>
+            <li><a class="dropdown-item" href="{{ url('/rutaImg') }}">Ruta del archivo .env</a></li>
+            <li><a class="dropdown-item" href="{{ url('/uploadJson') }}">Cargar Archivo en Json</a></li>
+            <li><a class="dropdown-item" href="{{ url('/jsonImg') }}">Imagenes extraidas del json</a></li>
           </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/admin') }}">Iniciar como Admin</a>
         </li>
       </ul>
 

@@ -16,7 +16,7 @@
 <br>
 <div class="container">
 <h3>Alojamientos</h3>
-<a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Agregar alojamiento</a>
+<a href="" id="btnAgregar" name="btnAgregar" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Agregar alojamiento</a>
 <br><br>
 <table class="table table-striped border">
     <tr class="table-secondary">
@@ -51,7 +51,7 @@
         <!---la ubicacion se pasa de php a javascript con comillas por que es una variable tipo texto-->
         <!-- <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="seleccProduct(<?php echo $c -> id?>,'<?php echo $c -> destino?>','<?php echo $c -> estadia?>',<?php echo $c -> costo_persona?>,'<?php echo $c -> descripcion?>','<?php echo $c -> img?>','<?php echo $c -> estado?>')">Ver</a></td> -->
         <td><a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="seleccProduct(<?php echo $var?>)">Ver</a></td>
-        <td><a href="" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#modalModificar" onclick="editProdut(<?php echo $var?>)">Actualizar</a></td>
+        <td><a href="" class="btn btn-primary btn-ver" data-bs-toggle="modal" data-bs-target="#modalModificar" onclick="editProdut(<?php echo $var?>)">Actualizar</a></td>
         <td><a href="" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalBorrar" onclick="seleccBorrar(<?php echo $c -> id?>)">Eliminar</a></td>
     </tr>
     @endforeach
@@ -153,7 +153,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         
-        <form name=formBorrar method="" action="{{ url ('admin/') }}">
+        <form name=formBorrar method="POST" action="{{ url ('admin/') }}">
           @csrf
           @method('DELETE')
           <button type="submit" class="btn btn-danger">Borrar Registro</button>
@@ -175,7 +175,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="{{ url('/admin') }}">
+        <form method="POST" action="{{ url('/admin') }}" enctype="multipart/form-data">
           <!--token forma 1-->
           <!-- @csrf -->
           <!--token forma 2-->
@@ -207,10 +207,16 @@
           </div>
           <div class="mb-1 col-12">
             <label for="imagen" class="form-label"><strong>Imagen</strong></label>
-            <input type="text" class="form-control" id="ipImagen1" name="ipImagen1" placeholder="Ingrese la imagen 'por ahora'" value="https://loremflickr.com/320/240/travel" required>           
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="True" id="cbUrl1" name="cbUrl1">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Imagen por URL
+                </label>
+              </div>
+            <input type="text" class="form-control" id="ipImagen1" name="ipImagen1" placeholder="Ingrese la imagen 'por ahora'" value="https://loremflickr.com/320/240/travel">           
           </div>
           <div class="mb-1 col-12">
-            <input type="file" class="form-control" id="_file_" name="archivo" placeholder="" value="https://loremflickr.com/320/240/travel" required>      
+            <input type="file" class="form-control" id="ipFile1" name="ipFile1" placeholder="" value="" accept="image/png, image/jpeg" required>      
           </div>
           <div class="mb-1 col-12">
             <label for="selEstado1" class="form-label"><strong>Ubicacion</strong></label>
@@ -234,15 +240,15 @@
 
 
 <!-- Modal de modificar -->
-<div class="modal fade" id="modalModificar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalModificarLabel" aria-hidden="true">
+<div class="modal fade" id="modalModificar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalModificarLabel" aria-hidden="true" >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalModificar">Agregar Alojamiento</h5>
+        <h5 class="modal-title" id="modalModificar">Modificar Alojamiento</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="POST" name="formActualizar" action="">
+        <form method="POST" name="formActualizar" action="" enctype="multipart/form-data">
           <!--token forma 1-->
           @csrf
           <!--token forma 2-->
@@ -279,7 +285,16 @@
           </div>
           <div class="mb-1 col-12">
             <label for="imagen" class="form-label"><strong>Imagen</strong></label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="True" id="cbUrl" name="cbUrl">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Imagen por URL
+                </label>
+              </div>
             <input type="text" class="form-control" id="ipImagen" name="ipImagen" placeholder="Ingrese la imagen 'por ahora'" required>           
+          </div>
+          <div class="mb-1 col-12">
+            <input type="file" class="form-control" id="ipFile" name="ipFile" placeholder="" value="" accept="image/png, image/jpeg" required>      
           </div>
           <div class="mb-1 col-12">
             <label for="selEstado" class="form-label"><strong>Ubicacion</strong></label>

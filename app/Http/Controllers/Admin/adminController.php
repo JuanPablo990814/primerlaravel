@@ -16,6 +16,11 @@ class adminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private static function randomToken($start=5,$end=60){
+        return substr(str_shuffle("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"),$start,$end);
+    }
+
     public function index()
     {
         // $data['query']=destinos::get();
@@ -63,10 +68,23 @@ class adminController extends Controller
             //1 por ser alojamiento
             $query -> id_tipo =1;
             $query -> titulo = $request -> ipAlojamiento1;
-            $query -> url = $this -> getUrl($request -> ipAlojamiento1);
+            
+            $query -> url = $this -> randomToken(5,15).$this -> getUrl($request -> ipAlojamiento1);
             $query -> costo_persona = $request -> ipCosto1;
             $query -> descripcion = $request -> ttaDescripcion1;
-            $query -> Imagen = $request -> ipImagen1;
+            if($request->cbUrl1=="True"){
+                $query -> Imagen = $request -> ipImagen1;
+            }else{
+                $file= $request -> ipFile1;
+                $imgs="";
+                $token = $this -> randomToken(5,15);
+                $imgName = $token.'-'.$file->getClientOriginalName();
+                //variable creada en .env UPLOADFILE_PATH
+                $file->move(env('UPLOADFILE_PATH'),$imgName);
+                $imgs.="http://".$_SERVER["HTTP_HOST"]."/img/upload/".$imgName;
+                $query -> Imagen = $imgs;
+            }
+            
             $query -> estado = $request -> selEstado1;
             date_default_timezone_set("America/Bogota");
             $time = time();
@@ -133,10 +151,22 @@ class adminController extends Controller
             //1 por que en la base de datos es alojamiento
             $query -> id_tipo = 1;
             $query -> titulo = $request -> ipAlojamiento;
-            $query -> url = $this -> getUrl($request -> ipAlojamiento);
+            $query -> url = $this -> randomToken(5,15).$this -> getUrl($request -> ipAlojamiento);
             $query -> costo_persona = $request -> ipCosto;
             $query -> descripcion = $request -> ttaDescripcion;
-            $query -> Imagen = $request -> ipImagen;
+            if($request->cbUrl=="True"){
+                $query -> Imagen = $request -> ipImagen;
+            }else{
+                $file= $request -> ipFile;
+                $imgs="";
+                $token = $this -> randomToken(5,15);
+                //no olvidar este elemento en el form:  enctype="multipart/form-data"
+                $imgName = $token.'-'.$file->getClientOriginalName();
+                //variable creada en .env UPLOADFILE_PATH
+                $file->move(env('UPLOADFILE_PATH'),$imgName);
+                $imgs.="http://".$_SERVER["HTTP_HOST"]."/img/upload/".$imgName;
+                $query -> Imagen = $imgs;
+            }
             $query -> estado = $request -> selEstado;
             date_default_timezone_set("America/Bogota");
             $time = time();
@@ -161,6 +191,7 @@ class adminController extends Controller
         try{
             $data=Planes::find($id);
             $data-> delete();
+            // dd($data);
 
             return redirect('/admin')->with(['msg' => 'Registro eliminado correctamente', 'class' => 'alert-warning alert-dismissible fade show']);
         }

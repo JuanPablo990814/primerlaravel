@@ -46,8 +46,21 @@
             <li><a class="dropdown-item" href="{{ url('/usandoarray') }}">Forma2: Usando un Array (Recorridos)</a></li>
             <li><a class="dropdown-item" href="{{ url('/usandodb') }}">Forma3: Usando Base de datos (Tours)</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Otro</a></li>
+            <li><a class="dropdown-item" href="{{ url('/upload') }}">Subir Archivos</a></li>
+            <li><a class="dropdown-item" href="{{ url('/sesion') }}">Sesiones</a></li>
+            <li><a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a></li>
+            <li><a class="dropdown-item" href="{{ url('/horatest') }}">Hora Test</a></li>
+            <li><a class="dropdown-item" href="{{ url('/conexionprueba') }}">Test SQL Server ¡Codigo Comentado!</a></li>
+            <li><a class="dropdown-item" href="{{ url('/alfanumerico/12juan') }}">Filtros Url: prueba con el 12juan</a></li>
+            <li><a class="dropdown-item" href="{{ url('/numerico/12') }}">Filtros Url: prueba con el 12</a></li>
+            <li><a class="dropdown-item" href="{{ url('/ejercicios') }}">Ejercicios de Aprendizaje Iniciales</a></li>
+            <li><a class="dropdown-item" href="{{ url('/rutaImg') }}">Ruta del archivo .env</a></li>
+            <li><a class="dropdown-item" href="{{ url('/uploadJson') }}">Cargar Archivo en Json</a></li>
+            <li><a class="dropdown-item" href="{{ url('/jsonImg') }}">Imagenes extraidas del json</a></li>
           </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/admin') }}">Iniciar como Admin</a>
         </li>
         <!-- <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
@@ -97,6 +110,6 @@
   
 </footer>
 
-
+<script src="{{ asset('js/adminInteractividad.js') }}"></script>
 </body>
 </html>
