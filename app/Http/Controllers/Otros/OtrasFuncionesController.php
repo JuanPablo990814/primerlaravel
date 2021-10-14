@@ -28,7 +28,7 @@ class OtrasFuncionesController extends Controller
         // $data['query']=destinos::get("costo_persona");
         $data['query'] = FacadesDB::table('tblPlanes')
             ->select('tblPlanes.id as id','tblDestinos.destino as destino',
-            'tblTipoPlan.nombre','tblPlanes.titulo as estadia',
+            'tblTipoPlan.nombre as Nombre','tblPlanes.titulo as estadia',
             'tblPlanes.url','tblPlanes.descripcion as descripcion',
             'tblPlanes.Imagen as img','tblPlanes.costo_persona as costo_persona',
             'tblPlanes.created_at',
@@ -36,7 +36,7 @@ class OtrasFuncionesController extends Controller
             ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
             ->where([
-                ['TblTipoPlan.nombre','=','Alojamientos'],
+                ['Nombre','=','Alojamientos'],
                 ['tblPlanes.costo_persona','<=', $request->filtrodinero],
                 ['tblPlanes.estado','=','Activo']
                 ]) 
@@ -51,7 +51,7 @@ class OtrasFuncionesController extends Controller
         // $data['query']=tblRecorridos::where("costo_persona","<=", $request -> filtrodinero)->get();
         $data['query'] = FacadesDB::table('tblPlanes')
             ->select('tblPlanes.id as id','tblDestinos.destino as destino',
-            'tblTipoPlan.nombre','tblPlanes.titulo as titulo',
+            'tblTipoPlan.nombre as Nombre','tblPlanes.titulo as titulo',
             'tblPlanes.url','tblPlanes.descripcion as descripcion',
             'tblPlanes.Imagen as img','tblPlanes.costo_persona as costo_persona',
             'tblPlanes.created_at',
@@ -59,7 +59,7 @@ class OtrasFuncionesController extends Controller
             ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
             ->where([
-                ['TblTipoPlan.nombre','=','Recorridos'],
+                ['Nombre','=','Recorridos'],
                 ['tblPlanes.costo_persona','<=', $request->filtrodinero],
                 ['tblPlanes.estado','=','Activo']
                 ]) 
@@ -74,7 +74,7 @@ class OtrasFuncionesController extends Controller
         // $data['query']=tblTours::where("costo_persona","<=", $request -> filtrodinero)->get();
         $data['query'] = FacadesDB::table('tblPlanes')
             ->select('tblPlanes.id as id','tblDestinos.destino as destino',
-            'tblTipoPlan.nombre','tblPlanes.titulo as titulo',
+            'tblTipoPlan.nombre as Nombre','tblPlanes.titulo as titulo',
             'tblPlanes.url','tblPlanes.descripcion as descripcion',
             'tblPlanes.Imagen as img','tblPlanes.costo_persona as costo_persona',
             'tblPlanes.created_at',
@@ -82,7 +82,7 @@ class OtrasFuncionesController extends Controller
             ->join('tblDestinos','tblPlanes.id_destinos', '=', 'tblDestinos.id')
             ->join('tblTipoPlan','tblPlanes.id_tipo','=','tblTipoPlan.id')
             ->where([
-                ['TblTipoPlan.nombre','=','Tours'],
+                ['Nombre','=','Tours'],
                 ['tblPlanes.costo_persona','<=', $request->filtrodinero],
                 ['tblPlanes.estado','=','Activo']
                 ]) 

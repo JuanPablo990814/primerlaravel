@@ -351,7 +351,7 @@ Route::get('/sesion', function () {
     
     //dd(Auth::user());
     dd(Auth::user()->name,Auth::user()->email,Auth::user()->numero);
-});
+})->middleware('rol');
 
 Route::get('/logout2', [LoginController::class,'logout2']);
 
@@ -383,4 +383,4 @@ Route::get('/rutaImg', function () {
 
 
 
-Route::get("/jsonImg",'App\Http\Controllers\Otros\OtrasFuncionesController@jsonImg');
+Route::get("/jsonImg",'App\Http\Controllers\Otros\OtrasFuncionesController@jsonImg')->middleware('rol');
