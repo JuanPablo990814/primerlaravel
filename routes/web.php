@@ -218,7 +218,7 @@ Route::get("/conexionprueba",function(){
     //Puesto que no se han especificado UID ni PWD en el array  $connectionInfo,
     // La conexión se intentará utilizando la autenticación Windows.
     $connectionInfo = array( "Database"=>"DB_Viajes");
-    //sqlsrv_connect() NO ESTA MALO EL CODIGO si ejecuta solo que aparece como error en el visual y sqlsrv_errors() igual
+    //¿sqlsrv_connect() NO ESTA MALO EL CODIGO si ejecuta solo que aparece como error en el visual y sqlsrv_errors() igual
     // $conn = sqlsrv_connect( $serverName, $connectionInfo);
     
     // if( $conn ) {
